@@ -137,15 +137,15 @@ class _ChatState extends State<Chat> {
                                                       Text(
                                                         courseStr,
                                                         style: TextStyle(
-                                                            color: Colors.white,fontSize: 18,fontWeight: FontWeight.w500),
+                                                            color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500),
                                                       ),
                                                       Text(
                                                         courseNo,
                                                         style: TextStyle(
-                                                            color: Colors.white),
+                                                            color: Colors.white,fontSize: 14,fontWeight: FontWeight.w500),
                                                       ),
                                                     ]),
-                                                radius: 35,
+                                                radius: 28,
                                                 backgroundColor: Color((math
                                                                     .Random()
                                                                 .nextDouble() *
@@ -163,14 +163,14 @@ class _ChatState extends State<Chat> {
                                                     Text(
                                                       data['groupName'],
                                                       style: TextStyle(
-                                                          fontSize: 21.0,
+                                                          fontSize: 18.0,
                                                           fontWeight:
                                                               FontWeight.w600),
                                                     ),
                                                     Text(
                                                       'Batch '+data['groupBatch'],
                                                       style: TextStyle(
-                                                          fontSize: 18.0,
+                                                          fontSize: 16.0,
                                                           fontWeight:
                                                               FontWeight.w400),
                                                     ),
@@ -180,7 +180,7 @@ class _ChatState extends State<Chat> {
                                       decoration: BoxDecoration(
                                         border: Border(
                                           bottom:
-                                              BorderSide(color: Color(0xFF808080).withOpacity(0.4)),
+                                              BorderSide(color: Color(0xFF808080).withOpacity(0.3)),
                                         ),
                                       ),
                                     ),
