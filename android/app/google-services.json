@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "695685628223",
+    "project_id": "the-cms-465c5",
+    "storage_bucket": "the-cms-465c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695685628223:android:01a7ee24381d7c0b66538a",
+        "android_client_info": {
+          "package_name": "com.theAces.cms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695685628223-25gahb843v47tl3tr913va266ggn8eh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL2KcotfDCvsSMxefQSazAQDDog6StTDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695685628223-25gahb843v47tl3tr913va266ggn8eh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
