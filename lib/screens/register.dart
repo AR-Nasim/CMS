@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       body: spinner
           ? const Center(
-              child: SpinKitPumpingHeart(
+              child: SpinKitDoubleBounce(
                 color: Color(0xFF13192F),
                 size: 50.0,
               ),

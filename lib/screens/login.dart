@@ -1,9 +1,11 @@
 import 'package:cms/components/error-message.dart';
-import 'package:cms/screens/chat.dart';
+import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import '../components/input-field.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -67,9 +69,8 @@ class _LoginState extends State<Login> {
                             final user = await _auth.signInWithEmailAndPassword(
                                 email: email, password: password);
                             if (user != null) {
-                              print(user);
-                              //Provider.of<TaskData>(context,listen:false).getUser();
-                              Navigator.pushNamed(context, Chat.id);
+                              Provider.of<TaskData>(context,listen:false).getUser();
+                              Navigator.pushNamed(context, Groups.id);
                             }
                             setState(() {
                               spinner = false;

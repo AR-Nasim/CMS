@@ -1,8 +1,9 @@
+import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/dropdown-field.dart';
 import 'package:cms/components/input-field2.dart';
 import 'package:cms/components/navigation.dart';
 import 'package:cms/components/task-data.dart';
-import 'package:cms/screens/chat.dart';
+import 'package:cms/screens/group-screen.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,8 @@ class AddGroup extends StatefulWidget {
 
 class _AddGroupState extends State<AddGroup> {
   final _firestore = FirebaseFirestore.instance;
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
   List<String> deptName = [
     'Select Department',
     'CSE',
@@ -34,8 +37,6 @@ class _AddGroupState extends State<AddGroup> {
   List<Object?> selectSectionList = [];
   String _sectionValue = 'Select Section';
 
-
-
   late String courseCode;
   late String batchNo;
 
@@ -43,11 +44,15 @@ class _AddGroupState extends State<AddGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        key: _globalKey,
+        drawer: CustomDrawer(),
         body: ColorfulSafeArea(
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                Navigation(),
+                CustomNavigation((value){
+                  _globalKey.currentState?.openDrawer();
+                }),
                 Container(
                   child: Stack(
                     children: [
@@ -142,7 +147,7 @@ class _AddGroupState extends State<AddGroup> {
                                 });
                               }
                             });
-                            Navigator.pushNamed(context, Chat.id);
+                            Navigator.pushNamed(context, Groups.id);
                           },
                         ),
                       ),

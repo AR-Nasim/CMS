@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:cms/screens/chat.dart';
+import 'package:cms/screens/group-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
@@ -46,7 +46,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-            Navigator.pushNamed(context, Chat.id);
+            Navigator.pushNamed(context, Groups.id);
         },
         backgroundColor: Color(0xFF13192F),
         child: Icon(Icons.arrow_forward_sharp),
@@ -206,7 +206,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Navigator.pushNamed(context, Chat.id);
+                      Navigator.pushNamed(context, Groups.id);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,

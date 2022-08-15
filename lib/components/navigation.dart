@@ -1,11 +1,13 @@
 import 'dart:io';
+import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Navigation extends StatelessWidget {
-  const Navigation({Key? key}) : super(key: key);
+class CustomNavigation extends StatelessWidget {
+  const CustomNavigation(this.onChangedCallback(value));
+  final Function onChangedCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +22,12 @@ class Navigation extends StatelessWidget {
         children: [
           GestureDetector(
             child: Icon(
-              Icons.keyboard_arrow_left,
+              Icons.list,
               color: Colors.white,
               size: 35.0,
             ),
             onTap: (){
-              Navigator.pop(context);
+              onChangedCallback(true);
             },
           ),
           SizedBox(
@@ -56,22 +58,6 @@ class Navigation extends StatelessWidget {
                 SizedBox(
                   width: 10.0,
                 ),
-                Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                GestureDetector(
-                  child: Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                  onTap: (){
-                    Provider.of<TaskData>(context, listen: false).logOut();
-                    Navigator.pushNamed(context, Login.id);
-                  },
-                )
               ],
             ),
           )

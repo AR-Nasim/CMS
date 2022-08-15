@@ -1,28 +1,31 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/subgroup-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:provider/provider.dart';
-
 import '../components/navigation.dart';
 import 'add-group.dart';
 import 'dart:math' as math;
 
-class Chat extends StatefulWidget {
-  static String id = 'chat';
+class Groups extends StatefulWidget {
+  static String id = 'group';
 
   @override
-  _ChatState createState() => _ChatState();
+  _GroupsState createState() => _GroupsState();
 }
 
-class _ChatState extends State<Chat> {
+class _GroupsState extends State<Groups> {
   final _firestore = FirebaseFirestore.instance;
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _globalKey,
+        drawer: CustomDrawer(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.pushNamed(context, AddGroup.id);
@@ -38,7 +41,9 @@ class _ChatState extends State<Chat> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                Navigation(),
+                CustomNavigation((value){
+                    _globalKey.currentState?.openDrawer();
+                }),
                 Container(
                   child: Stack(
                     children: [
@@ -60,23 +65,39 @@ class _ChatState extends State<Chat> {
                             padding: EdgeInsets.only(top: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Groups",
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w500,
+                              children: [
+                                Container(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 7.0),
+                                    child: Text(
+                                      "Groups",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom:BorderSide(color: Colors.black,width: 3.0),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: 50.0,
                                 ),
-                                Text(
-                                  "Resources",
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w500),
-                                )
+                                Container(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
+                                    child: Text(
+                                      "Resources",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -156,25 +177,34 @@ class _ChatState extends State<Chat> {
                                               SizedBox(
                                                 width: 10.0,
                                               ),
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      data['groupName'],
-                                                      style: TextStyle(
-                                                          fontSize: 18.0,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    Text(
-                                                      'Batch '+data['groupBatch'],
-                                                      style: TextStyle(
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    ),
-                                                  ]),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
+                                                  print(Provider.of<TaskData>(context,
+                                                      listen: false)
+                                                      .courseCode);
+                                                  Navigator.pushNamed(context, SubGroups.id);
+                                                },
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        data['groupName'],
+                                                        style: TextStyle(
+                                                            fontSize: 19.0,
+                                                            fontWeight:
+                                                                FontWeight.w600),
+                                                      ),
+                                                      Text(
+                                                        'Batch '+data['groupBatch'],
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight.w400),
+                                                      ),
+                                                    ]),
+                                              ),
                                             ]),
                                       ),
                                       decoration: BoxDecoration(

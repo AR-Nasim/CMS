@@ -7,6 +7,8 @@ class TaskData extends ChangeNotifier{
   String userName = '';
   String userEmail = '';
   String userPhoto = '';
+  String courseCode = '';
+  String courseBatch = '';
 
   void getUser() {
     final user = _auth.currentUser;
@@ -17,6 +19,12 @@ class TaskData extends ChangeNotifier{
         userPhoto = user.photoURL!;
       }
     }
+    notifyListeners();
+  }
+
+  void getGroup(String code, String batch){
+    courseCode = code;
+    courseBatch = batch;
     notifyListeners();
   }
 
