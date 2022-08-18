@@ -1,7 +1,7 @@
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/input-field.dart';
 import 'package:cms/screens/login.dart';
-import 'package:cms/screens/teacher-profile.dart';
+import 'package:cms/screens/varification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,7 +45,24 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text("Create an account as Teacher",textAlign: TextAlign.center ,style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
+                  Center(
+                    child: Material(
+                      borderRadius: BorderRadius.circular(100),
+                      elevation: 5.0,
+                      child: CircleAvatar(
+                        backgroundColor: Color(0xFF13192F),
+                        radius: 73.0,
+                        child: CircleAvatar(
+                          radius: 70.0,
+                          backgroundImage: AssetImage('images/CMS-Logo.png'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Text("Create an account as Teacher",textAlign: TextAlign.center ,style: TextStyle(color: Color(0xFF13192F),fontSize: 20.0,fontWeight: FontWeight.bold),),
                   const SizedBox(
                     height: 30.0,
                   ),
@@ -111,7 +128,7 @@ class _RegisterState extends State<Register> {
                                     ?.updateDisplayName(name);
                                 // Provider.of<TaskData>(context, listen: false)
                                 //     .getUser();
-                                Navigator.pushNamed(context, TeacherProfile.id);
+                                Navigator.pushNamed(context, Varification.id);
                               }
                               setState(() {
                                 spinner = false;

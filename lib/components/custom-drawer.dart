@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/teacher-profile.dart';
+import 'package:cms/screens/welcome-page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,9 +51,14 @@ class CustomDrawer extends StatelessWidget {
             decoration: const BoxDecoration(color: Colors.white),
             child: Column(
               children: [
-                const ListTile(
-                  leading: Icon(Icons.message),
-                  title: Text('Messages'),
+                GestureDetector(
+                  child: const ListTile(
+                    leading: Icon(Icons.group),
+                    title: Text('Groups'),
+                  ),
+                  onTap: (){
+                    Navigator.pushNamed(context, Groups.id);
+                  },
                 ),
                 GestureDetector(
                   child: const ListTile(
@@ -73,7 +80,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       Provider.of<TaskData>(context, listen: false).logOut();
-                      Navigator.pushNamed(context, Login.id);
+                      Navigator.pushNamed(context, WelcomePage.id);
                     })
               ],
             ),

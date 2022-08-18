@@ -2,6 +2,7 @@ import 'package:cms/components/error-message.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/register.dart';
+import 'package:cms/screens/varification.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +39,27 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Center(
+                    child: Material(
+                      borderRadius: BorderRadius.circular(100),
+                      elevation: 5.0,
+                      child: CircleAvatar(
+                        backgroundColor: Color(0xFF13192F),
+                        radius: 73.0,
+                        child: CircleAvatar(
+                          radius: 70.0,
+                          backgroundImage: AssetImage('images/CMS-Logo.png'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Text("Login as Teacher",textAlign: TextAlign.center ,style: TextStyle(color: Color(0xFF13192F),fontSize: 20.0,fontWeight: FontWeight.bold),),
+                  SizedBox(
+                    height: 30.0,
+                  ),
                   InputField('Enter your email', false, (value) {
                     email = value;
                   }),
@@ -70,7 +92,7 @@ class _LoginState extends State<Login> {
                                 email: email, password: password);
                             if (user != null) {
                               Provider.of<TaskData>(context,listen:false).getUser();
-                              Navigator.pushNamed(context, Groups.id);
+                              Navigator.pushNamed(context, Varification.id);
                             }
                             setState(() {
                               spinner = false;

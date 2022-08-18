@@ -6,11 +6,9 @@ import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/group-screen.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import '../components/multi-dropdown-field.dart';
-import '../components/navigation.dart';
 
 class AddGroup extends StatefulWidget {
   static String id = 'add-group';
