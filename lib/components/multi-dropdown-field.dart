@@ -22,7 +22,6 @@ class MultiDropdownField extends StatelessWidget {
       checkColor: Colors.white,
       selectedColor: Color(0xFF13192F),
       title: Text(title),
-      separateSelectedItems: true,
       onConfirm: onChangedCallback,
       decoration: BoxDecoration(
         color: Colors.white,

@@ -53,11 +53,10 @@ class _RoutesState extends State<Routes> {
         Register.id: (context) => const Register(),
         Varification.id: (context) => Varification(),
         TeacherProfileUpdate.id: (context) => TeacherProfileUpdate(),
+        TeacherProfile.id: (context) => TeacherProfile(),
         AddGroup.id: (context) => AddGroup(),
         SubGroups.id: (context) => SubGroups(),
         Groups.id: (context) => Groups(),
-        TeacherProfile.id: (context) => TeacherProfile(),
-
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
 

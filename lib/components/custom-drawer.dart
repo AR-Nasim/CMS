@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/group-screen.dart';
-import 'package:cms/screens/login.dart';
 import 'package:cms/screens/teacher-profile.dart';
 import 'package:cms/screens/welcome-page.dart';
 import 'package:flutter/material.dart';

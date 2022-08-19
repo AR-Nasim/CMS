@@ -180,9 +180,6 @@ class _GroupsState extends State<Groups> {
                                               GestureDetector(
                                                 onTap: (){
                                                   Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
-                                                  print(Provider.of<TaskData>(context,
-                                                      listen: false)
-                                                      .courseCode);
                                                   Navigator.pushNamed(context, SubGroups.id);
                                                 },
                                                 child: Column(

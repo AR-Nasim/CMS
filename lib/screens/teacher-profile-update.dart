@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cms/components/input-field2.dart';
+import 'package:cms/components/multi-dropdown-field.dart';
 import 'package:cms/screens/group-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +10,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../components/dropdown-field.dart';
-import '../components/input-field2.dart';
 
 class TeacherProfileUpdate extends StatefulWidget {
   static String id = 'teacher-profile-update';
@@ -31,9 +33,16 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
     Provider.of<TaskData>(context, listen: false).updatePhoto(_imageFile.path);
   }
 
+  final _firestore = FirebaseFirestore.instance;
+
+  String _position = ' Select Your Position';
+  List<Object?> selectPositions = [];
+  List<String> positions = ['Professor', 'Associate Professor', 'Assistance Professor', 'Head', 'Lecturer', 'Adjunct Faculty'];
+
   String _dropDownValue = 'CSE';
   List<String> items = ['CSE', 'EEE', 'BBA', 'LAW', 'CE'];
-  late String bio;
+  late String mobile = '';
+  late String bio = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +55,15 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
+            _firestore.collection('teacherProfile').add({
+              'position': _position,
+              'dept': _dropDownValue,
+              'bio': bio,
+              'mobile': mobile,
+              'email':
+              Provider.of<TaskData>(context, listen: false)
+                  .userEmail
+            });
             Navigator.pushNamed(context, Groups.id);
         },
         backgroundColor: Color(0xFF13192F),
@@ -160,36 +178,29 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // DecoratedBox(
-                  //   decoration: BoxDecoration(
-                  //     border:
-                  //         Border.all(color: const Color(0xFF13192F), width: 2.0),
-                  //     borderRadius: BorderRadius.circular(15.0),
-                  //   ),
-                  //   child: Padding(
-                  //     padding:
-                  //         EdgeInsets.symmetric(horizontal: 20.0),
-                  //     child: DropdownButton(
-                  //       value: _dropDownValue,
-                  //       items: items.map((String items) {
-                  //         return DropdownMenuItem(
-                  //           value: items,
-                  //           child: Text(
-                  //             items,
-                  //             style: TextStyle(color: Colors.black),
-                  //           ),
-                  //         );
-                  //       }).toList(),
-                  //       onChanged: (String? newValue) {
-                  //         setState(() {
-                  //           _dropDownValue = newValue!;
-                  //         });
-                  //       },
-                  //       underline: Container(),
-                  //       isExpanded: true,
-                  //     ),
-                  //   ),
-                  // ),
+                  MultiDropdownField('Select your position', _position, positions, (value){
+                    setState(() {
+                      selectPositions = value;
+                      _position = '';
+                      selectPositions.forEach((element) {
+                        setState(() {
+                          if(_position!='') {
+                            _position = _position + ', ' + element.toString();
+                          } else {
+                            _position = element.toString();
+                          }
+                        });
+                      });
+                      if(_position==''){
+                        setState(() {
+                          _position = ' Select Your Position';
+                        });
+                      }
+                    });
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   DropdownField(_dropDownValue, items, (value){
                     setState(() {
                       _dropDownValue = value;
@@ -199,13 +210,21 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                     height: 10.0,
                   ),
                   InputField2("Add Bio", false, (value){
-                    bio = value;
+                    setState(() {
+                      bio = value;
+                    });
                   }),
                   SizedBox(
                     height: 10.0,
                   ),
+                  InputField2('Mobile Number', false, (value){
+                    setState(() {
+                      mobile  =value;
+                    });
+                  }),
                   GestureDetector(
                     onTap: (){
+
                       Navigator.pushNamed(context, Groups.id);
                     },
                     child: Column(

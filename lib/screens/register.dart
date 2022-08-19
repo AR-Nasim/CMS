@@ -1,5 +1,6 @@
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/input-field.dart';
+import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/varification.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
   static String id = 'register';
@@ -126,8 +128,8 @@ class _RegisterState extends State<Register> {
                               if (result != null) {
                                 await _auth.currentUser
                                     ?.updateDisplayName(name);
-                                // Provider.of<TaskData>(context, listen: false)
-                                //     .getUser();
+                                Provider.of<TaskData>(context, listen: false)
+                                    .getUser();
                                 Navigator.pushNamed(context, Varification.id);
                               }
                               setState(() {
