@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'screens/login-varification.dart';
 import 'screens/logreg-page.dart';
+import 'screens/resource.dart';
 import 'screens/student-login.dart';
 import 'screens/student-register.dart';
 import 'screens/subgroup-screen.dart';
@@ -52,11 +54,13 @@ class _RoutesState extends State<Routes> {
         Login.id: (context) => Login(),
         Register.id: (context) => const Register(),
         Varification.id: (context) => Varification(),
+        LoginVarification.id: (context) => LoginVarification(),
         TeacherProfileUpdate.id: (context) => TeacherProfileUpdate(),
         TeacherProfile.id: (context) => TeacherProfile(),
         AddGroup.id: (context) => AddGroup(),
         SubGroups.id: (context) => SubGroups(),
         Groups.id: (context) => Groups(),
+        Resources.id: (context) => Resources(),
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
 

@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/input-field2.dart';
 import 'package:cms/components/multi-dropdown-field.dart';
 import 'package:cms/screens/group-screen.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
@@ -23,6 +26,8 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
   final ImagePicker _picker = ImagePicker();
   late bool isImage = false;
 
+  File? file = null;
+
   void takePhoto(ImageSource source) async {
     final pickedFile = await _picker.getImage(
       source: source,
@@ -37,15 +42,25 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
 
   String _position = ' Select Your Position';
   List<Object?> selectPositions = [];
-  List<String> positions = ['Professor', 'Associate Professor', 'Assistance Professor', 'Head', 'Lecturer', 'Adjunct Faculty'];
+  List<String> positions = [
+    'Professor',
+    'Associate Professor',
+    'Assistance Professor',
+    'Head',
+    'Lecturer',
+    'Adjunct Faculty'
+  ];
 
   String _dropDownValue = 'CSE';
   List<String> items = ['CSE', 'EEE', 'BBA', 'LAW', 'CE'];
   late String mobile = '';
   late String bio = '';
 
+
   @override
   Widget build(BuildContext context) {
+    final fileName = file != null ? file!.path.split('/').last : "Add file";
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -54,17 +69,16 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
         backgroundColor: Color(0xFF13192F),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-            _firestore.collection('teacherProfile').add({
-              'position': _position,
-              'dept': _dropDownValue,
-              'bio': bio,
-              'mobile': mobile,
-              'email':
-              Provider.of<TaskData>(context, listen: false)
-                  .userEmail
-            });
-            Navigator.pushNamed(context, Groups.id);
+        onPressed: () {
+          _firestore.collection('teacherProfile').add({
+            'position': _position,
+            'dept': _dropDownValue,
+            'bio': bio,
+            'mobile': mobile,
+            'email': Provider.of<TaskData>(context, listen: false).userEmail
+          });
+          uploadFile();
+          Navigator.pushNamed(context, Groups.id);
         },
         backgroundColor: Color(0xFF13192F),
         child: Icon(Icons.arrow_forward_sharp),
@@ -170,7 +184,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
             ),
             SizedBox(
-              height: 40.0,
+              height: 10.0,
             ),
             Padding(
               padding: EdgeInsets.all(30.0),
@@ -178,20 +192,21 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  MultiDropdownField('Select your position', _position, positions, (value){
+                  MultiDropdownField(
+                      'Select your position', _position, positions, (value) {
                     setState(() {
                       selectPositions = value;
                       _position = '';
                       selectPositions.forEach((element) {
                         setState(() {
-                          if(_position!='') {
+                          if (_position != '') {
                             _position = _position + ', ' + element.toString();
                           } else {
                             _position = element.toString();
                           }
                         });
                       });
-                      if(_position==''){
+                      if (_position == '') {
                         setState(() {
                           _position = ' Select Your Position';
                         });
@@ -201,7 +216,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  DropdownField(_dropDownValue, items, (value){
+                  DropdownField(_dropDownValue, items, (value) {
                     setState(() {
                       _dropDownValue = value;
                     });
@@ -209,7 +224,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  InputField2("Add Bio", false, (value){
+                  InputField2("Add Bio", false, (value) {
                     setState(() {
                       bio = value;
                     });
@@ -217,34 +232,32 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  InputField2('Mobile Number', false, (value){
+                  InputField2('Mobile Number', false, (value) {
                     setState(() {
-                      mobile  =value;
+                      mobile = value;
                     });
                   }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   GestureDetector(
-                    onTap: (){
-
-                      Navigator.pushNamed(context, Groups.id);
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF13192F),width: 2.0),
-                          color: Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(15.0)
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0,horizontal: 20.0),
-                          child: Text(
-                            "Add Routine",
-                            style: TextStyle(color: Colors.black54,fontSize: 16.0),
-                          ),
-                        ),
+                    onTap: selectFile,
+                    child: Container(
+                      width: screenWidth,
+                      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color(0xFF13192F), width: 2.0),
+                          color: Color(0xFF13192F),
+                          borderRadius: BorderRadius.circular(15.0),
                       ),
-                    ]),
+                      child: Text(
+                        fileName,
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 16.0),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -253,5 +266,29 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
         ),
       ),
     );
+  }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() {
+      file = File(path);
+    });
+  }
+
+  Future uploadFile() async {
+    if(file == null)return;
+
+    final fileName = file!.path.split('.').last;
+    final destination = 'teacherRoutine/a.r.nasim74@gmail.com.$fileName';
+    try{
+      final ref = FirebaseStorage.instance.ref(destination);
+      ref.putFile(file!);
+    }
+    catch(e){
+      return null;
+    }
+
   }
 }

@@ -10,6 +10,8 @@ import '../components/navigation.dart';
 import 'add-group.dart';
 import 'dart:math' as math;
 
+import 'resource.dart';
+
 class Groups extends StatefulWidget {
   static String id = 'group';
 
@@ -87,13 +89,18 @@ class _GroupsState extends State<Groups> {
                                   width: 50.0,
                                 ),
                                 Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
-                                    child: Text(
-                                      "Resources",
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w500,
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.pushNamed(context, Resources.id);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
+                                      child: Text(
+                                        "Resources",
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),

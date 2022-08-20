@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/navigation.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +52,24 @@ class _TeacherProfileState extends State<TeacherProfile> {
                             CustomNavigation((value){
                               _globalKey.currentState?.openDrawer();
                             }),
+                            Container(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 30.0,
+                                    margin: EdgeInsets.only(right: 50.0,bottom: 1.0),
+                                    color: Color(0xFF13192F),
+                                  ),
+                                  Container(
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(30.0))),
+                                  ),
+                                ],
+                              ),
+                            ),
                             Container(
                               child: Column(
                                 children:[
@@ -154,6 +174,27 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                         ),
                                       ),
                                     ),
+                                    SizedBox(height: 40.0,),
+                                    GestureDetector(
+                                      onTap: downloadFile,
+                                      child: Container(
+                                        width: 300.0,
+                                        margin: EdgeInsets.only(left: 25.0),
+                                        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xFF13192F), width: 2.0),
+                                          color: Color(0xFF13192F),
+                                          borderRadius: BorderRadius.circular(15.0),
+                                        ),
+                                        child: Text(
+                                          'Download Routine',
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 16.0),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ],
@@ -171,5 +212,25 @@ class _TeacherProfileState extends State<TeacherProfile> {
               }),
         ),
     );
+  }
+  Future downloadFile() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    File downloadToFile = File('${appDocDir.path}/routine-pdf.pdf');
+    String email = Provider.of<TaskData>(context, listen: false).userEmail;
+    List<String> extension = ['pdf', 'png','jpg','jpeg'];
+    extension.forEach((element) async {
+      String fileToDownload = 'teacherRoutine/$email.$element';
+      try {
+        await FirebaseStorage.instance.ref(fileToDownload).writeToFile(downloadToFile);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Downloading Routine'),)
+        );
+        
+      } on FirebaseException catch (e) {
+        print('Amr Download error: $e');
+      }
+
+    });
+
   }
 }

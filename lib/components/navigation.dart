@@ -1,9 +1,6 @@
-import 'dart:io';
-import 'package:cms/components/custom-drawer.dart';
-import 'package:cms/components/task-data.dart';
-import 'package:cms/screens/login.dart';
+
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CustomNavigation extends StatelessWidget {
   const CustomNavigation(this.onChangedCallback(value));
@@ -35,15 +32,11 @@ class CustomNavigation extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 25.0,
-              backgroundImage: Provider.of<TaskData>(context).userPhoto ==
-                  ''
-                  ? AssetImage('images/profile-img.png')
-                  : FileImage( File(Provider.of<TaskData>(context).userPhoto))
-              as ImageProvider, // : FileImage() as ImageProvider,
-            ),
+            child:  Padding(
+              padding: EdgeInsets.all(7.0),
+              child: Text('CMS',
+              style: TextStyle(fontSize: 26.0,color: Colors.white, fontWeight: FontWeight.bold),),
+            )
           ),
           Expanded(
             child: Row(
