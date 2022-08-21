@@ -1,9 +1,12 @@
 import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/navigation.dart';
 import 'package:cms/screens/group-screen.dart';
+import 'package:cms/screens/subgroup-screen.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'image-resource.dart';
 
 class Resources extends StatefulWidget {
   static String id="resources";
@@ -30,12 +33,12 @@ class _ResourcesState extends State<Resources> {
                 child: Stack(
                   children: [
                     Container(
-                      height: 30.0,
+                      height: 28.0,
                       margin: EdgeInsets.only(right: 50.0),
                       color: Color(0xFF13192F),
                     ),
                     Container(
-                      height: 30.0,
+                      height: 35.0,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -51,7 +54,7 @@ class _ResourcesState extends State<Resources> {
                               Container(
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.pushNamed(context, Groups.id);
+                                    Navigator.pushNamed(context, SubGroups.id);
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 7.0),
@@ -99,31 +102,36 @@ class _ResourcesState extends State<Resources> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0, top: 45.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Images',
-                                style: TextStyle(
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, ImageResources.id);
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Images',
+                                  style: TextStyle(
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          margin: EdgeInsets.all(15.0),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
+                              ],
+                            ),
+                            margin: EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                           ),
                         ),
                       ),

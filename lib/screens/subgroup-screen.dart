@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/resource.dart';
 import 'package:flutter/material.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:provider/provider.dart';
@@ -47,12 +48,12 @@ class _SubGroupsState extends State<SubGroups> {
                   child: Stack(
                     children: [
                       Container(
-                        height: 30.0,
+                        height: 28.0,
                         margin: EdgeInsets.only(right: 50.0),
                         color: Color(0xFF13192F),
                       ),
                       Container(
-                        height: 30.0,
+                        height: 35.0,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -85,14 +86,19 @@ class _SubGroupsState extends State<SubGroups> {
                                 SizedBox(
                                   width: 50.0,
                                 ),
-                                Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
-                                    child: Text(
-                                      "Resources",
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w500,
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.pushNamed(context, Resources.id);
+                                  },
+                                  child: Container(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
+                                      child: Text(
+                                        "Resources",
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),

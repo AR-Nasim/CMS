@@ -10,7 +10,6 @@ import '../components/navigation.dart';
 import 'add-group.dart';
 import 'dart:math' as math;
 
-import 'resource.dart';
 
 class Groups extends StatefulWidget {
   static String id = 'group';
@@ -50,12 +49,12 @@ class _GroupsState extends State<Groups> {
                   child: Stack(
                     children: [
                       Container(
-                        height: 30.0,
+                        height: 28.0,
                         margin: EdgeInsets.only(right: 50.0),
                         color: Color(0xFF13192F),
                       ),
                       Container(
-                        height: 30.0,
+                        height: 35.0,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -91,12 +90,12 @@ class _GroupsState extends State<Groups> {
                                 Container(
                                   child: GestureDetector(
                                     onTap: (){
-                                      Navigator.pushNamed(context, Resources.id);
+                                      //Navigator.pushNamed(context, Resources.id);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
                                       child: Text(
-                                        "Resources",
+                                        "Notifications",
                                         style: TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
@@ -191,23 +190,23 @@ class _GroupsState extends State<Groups> {
                                                 },
                                                 child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         data['groupName'],
                                                         style: TextStyle(
                                                             fontSize: 19.0,
                                                             fontWeight:
-                                                                FontWeight.w600),
+                                                            FontWeight.w600),
                                                       ),
                                                       Text(
                                                         'Batch '+data['groupBatch'],
                                                         style: TextStyle(
                                                             fontSize: 16.0,
                                                             fontWeight:
-                                                                FontWeight.w400),
+                                                            FontWeight.w400),
                                                       ),
-                                                    ]),
+                                                    ])
                                               ),
                                             ]),
                                       ),

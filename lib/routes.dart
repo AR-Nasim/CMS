@@ -1,5 +1,7 @@
 import 'package:cms/screens/add-group.dart';
+import 'package:cms/screens/add-image.dart';
 import 'package:cms/screens/group-screen.dart';
+import 'package:cms/screens/image-resource.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/register.dart';
 import 'package:cms/screens/teacher-profile-update.dart';
@@ -61,6 +63,8 @@ class _RoutesState extends State<Routes> {
         SubGroups.id: (context) => SubGroups(),
         Groups.id: (context) => Groups(),
         Resources.id: (context) => Resources(),
+        ImageResources.id: (context) => ImageResources(),
+        AddImage.id:(context) => AddImage(),
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
 

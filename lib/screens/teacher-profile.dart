@@ -56,12 +56,12 @@ class _TeacherProfileState extends State<TeacherProfile> {
                               child: Stack(
                                 children: [
                                   Container(
-                                    height: 30.0,
+                                    height: 28.0,
                                     margin: EdgeInsets.only(right: 50.0,bottom: 1.0),
                                     color: Color(0xFF13192F),
                                   ),
                                   Container(
-                                    height: 30.0,
+                                    height: 35.0,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.only(

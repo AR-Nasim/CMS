@@ -55,12 +55,12 @@ class _AddGroupState extends State<AddGroup> {
                   child: Stack(
                     children: [
                       Container(
-                        height: 30.0,
+                        height: 28.0,
                         margin: EdgeInsets.only(right: 50.0),
                         color: Color(0xFF13192F),
                       ),
                       Container(
-                        height: 30.0,
+                        height: 35.0,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
