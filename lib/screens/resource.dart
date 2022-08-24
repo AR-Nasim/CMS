@@ -2,6 +2,7 @@ import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/navigation.dart';
 import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/subgroup-screen.dart';
+import 'package:cms/screens/video.resource.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -139,31 +140,36 @@ class _ResourcesState extends State<Resources> {
                     Expanded(child:
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0, top: 45.0),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Videos',
-                              style: TextStyle(
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, VideoResources.id);
+                        },
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Videos',
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
+                            ],
+                          ),
+                          margin: EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 3,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                         ),
                       ),
                     ),

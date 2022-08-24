@@ -10,6 +10,8 @@ import '../components/navigation.dart';
 import 'add-group.dart';
 import 'dart:math' as math;
 
+import 'chat-screen.dart';
+
 class SubGroups extends StatefulWidget {
   static String id = 'sub-group';
 
@@ -174,8 +176,8 @@ class _SubGroupsState extends State<SubGroups> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: (){
-                                                    Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
-
+                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection']);
+                                                    Navigator.pushNamed(context, ChatScreen.id);
                                                   },
                                                   child: Column(
                                                       crossAxisAlignment:

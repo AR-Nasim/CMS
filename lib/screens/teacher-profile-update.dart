@@ -56,6 +56,8 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
   late String mobile = '';
   late String bio = '';
 
+  late CollectionReference routineRef;
+
 
   @override
   Widget build(BuildContext context) {
@@ -278,17 +280,28 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
   }
 
   Future uploadFile() async {
+    String email = Provider.of<TaskData>(context, listen: false).userEmail;
     if(file == null)return;
-
-    final fileName = file!.path.split('.').last;
-    final destination = 'teacherRoutine/a.r.nasim74@gmail.com.$fileName';
+    final fileName = file!.path.split('/').last;
+    final destination = 'teacherRoutine/$email/$fileName';
     try{
       final ref = FirebaseStorage.instance.ref(destination);
-      ref.putFile(file!);
+      ref.putFile(file!).whenComplete(()async{
+        await ref.getDownloadURL().then((value){
+          routineRef.add({'url': fileName,'email':email, 'fileName': fileName});
+        }
+        );
+      });
     }
     catch(e){
       return null;
     }
 
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    routineRef = FirebaseFirestore.instance.collection('routineURLs');
   }
 }

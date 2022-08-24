@@ -31,11 +31,15 @@ dependencies:
   provider: ^6.0.2
   rflutter_alert: ^2.0.4
   image_picker: ^0.8.4+11
+  video_player: ^2.4.7
   file_picker: ^4.0.1
   path_provider: ^2.0.1
   transparent_image: ^2.0.0
   multiselect: ^0.0.4
   multi_select_flutter: ^4.1.2
+  dio: ^4.0.6
+  intl: ^0.17.0
+  gallery_saver: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +58,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - images/CMS-Logo.png
+    - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

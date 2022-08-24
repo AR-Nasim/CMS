@@ -6,12 +6,15 @@ import 'package:cms/screens/login.dart';
 import 'package:cms/screens/register.dart';
 import 'package:cms/screens/teacher-profile-update.dart';
 import 'package:cms/screens/teacher-profile.dart';
+import 'package:cms/screens/video.resource.dart';
 import 'package:cms/screens/welcome-page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'screens/add-video.dart';
+import 'screens/chat-screen.dart';
 import 'screens/login-varification.dart';
 import 'screens/logreg-page.dart';
 import 'screens/resource.dart';
@@ -61,10 +64,13 @@ class _RoutesState extends State<Routes> {
         TeacherProfile.id: (context) => TeacherProfile(),
         AddGroup.id: (context) => AddGroup(),
         SubGroups.id: (context) => SubGroups(),
+        ChatScreen.id: (context) => ChatScreen(),
         Groups.id: (context) => Groups(),
         Resources.id: (context) => Resources(),
         ImageResources.id: (context) => ImageResources(),
         AddImage.id:(context) => AddImage(),
+        VideoResources.id: (context) => VideoResources(),
+        AddVideo.id: (context) => AddVideo(),
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
 

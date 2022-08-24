@@ -61,7 +61,7 @@ class _AddImageState extends State<AddImage> {
                     );
             },
           ),
-        ));
+        ),);
   }
 
   selectFiles() async {
@@ -80,7 +80,7 @@ class _AddImageState extends State<AddImage> {
       ref = FirebaseStorage.instance.ref().child('imageResources/$email/$code-$batch/$newFileName');
       await ref.putFile(img).whenComplete(()async{
         await ref.getDownloadURL().then((value){
-          imgRef.add({'url': value,'email':email,'courseCode': code,'courseBatch':batch});
+          imgRef.add({'url': value});
         }
         );
       });
@@ -90,6 +90,9 @@ class _AddImageState extends State<AddImage> {
   @override
   void initState(){
     super.initState();
-    imgRef = FirebaseFirestore.instance.collection('imageURLs');
+    String email = Provider.of<TaskData>(context, listen: false).userEmail;
+    String code = Provider.of<TaskData>(context, listen: false).courseCode;
+    String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
+    imgRef = FirebaseFirestore.instance.collection('imageURLs-$email-$code-$batch');
   }
 }
