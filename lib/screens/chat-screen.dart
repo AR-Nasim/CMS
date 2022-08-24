@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        title: Text(code + '-' + batch + '(' + section + ')'),
+        title: Text('EEE-1111-50(B)'),
         backgroundColor: Color(0xFF13192F),
       ),
       body: SafeArea(
@@ -65,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   FlatButton(
                     onPressed: () {
                       messageTextController.clear();
-                      _firestore.collection('messages-$email-$code-$batch-$section').add({
+                      _firestore.collection('messages-a.r.nasim74@gmail.com-EEE-1111-50-B').add({
                         'text': messageText,
                         'sender': email,
                         'messageTime': DateFormat.Hms().format(DateTime.now()).toString(),
@@ -97,7 +97,7 @@ class MessagesStream extends StatelessWidget {
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
     String section = Provider.of<TaskData>(context, listen: false).courseSection;
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages-$email-$code-$batch-$section').orderBy('messageTime', descending: false).snapshots(),
+      stream: _firestore.collection('messages-a.r.nasim74@gmail.com-EEE-1111-50-B').orderBy('messageTime', descending: false).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(

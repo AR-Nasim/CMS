@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'add-video.dart';
 
 class VideoResources extends StatefulWidget {
-  static String id = 'image-resources';
+  static String id = 'video-resources';
 
   @override
   _VideoResourcesState createState() => _VideoResourcesState();

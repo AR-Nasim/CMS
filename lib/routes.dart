@@ -4,6 +4,7 @@ import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/image-resource.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/register.dart';
+import 'package:cms/screens/student-group-screen.dart';
 import 'package:cms/screens/teacher-profile-update.dart';
 import 'package:cms/screens/teacher-profile.dart';
 import 'package:cms/screens/video.resource.dart';
@@ -20,6 +21,7 @@ import 'screens/logreg-page.dart';
 import 'screens/resource.dart';
 import 'screens/student-login.dart';
 import 'screens/student-register.dart';
+import 'screens/student-verification.dart';
 import 'screens/subgroup-screen.dart';
 import 'screens/varification.dart';
 
@@ -73,6 +75,8 @@ class _RoutesState extends State<Routes> {
         AddVideo.id: (context) => AddVideo(),
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
+        StudentGroupScreen.id: (context) => StudentGroupScreen(),
+        StudentVerification.id: (context) => StudentVerification(),
 
       },
     );

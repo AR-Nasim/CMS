@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import '../components/input-field.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'student-verification.dart';
+
 class StudentLogin extends StatefulWidget {
   static String id = 'student-login';
 
@@ -92,7 +94,7 @@ class _StudentLoginState extends State<StudentLogin> {
                           email: email, password: password);
                       if (user != null) {
                         Provider.of<TaskData>(context,listen:false).getUser();
-                        Navigator.pushNamed(context, Varification.id);
+                        Navigator.pushNamed(context, StudentVerification.id);
                       }
                       setState(() {
                         spinner = false;

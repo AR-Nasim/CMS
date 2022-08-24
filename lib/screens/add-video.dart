@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddVideo extends StatefulWidget {
-  static String id = 'add-image';
+  static String id = 'add-video';
 
   @override
   _AddVideoState createState() => _AddVideoState();
