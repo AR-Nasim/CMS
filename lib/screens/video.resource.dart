@@ -52,7 +52,7 @@ class _VideoResourcesState extends State<VideoResources> {
                 }),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('videoURLs-$email-$code-$batch')
+                      .collection('videoURLs').where('email', isEqualTo: email).where('courseCode', isEqualTo:code).where('courseBatch', isEqualTo: batch)
                       .snapshots(),
                   builder: (context, snapshot) {
                     return !snapshot.hasData

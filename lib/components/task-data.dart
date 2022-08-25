@@ -10,6 +10,7 @@ class TaskData extends ChangeNotifier{
   String courseCode = '';
   String courseBatch = '';
   String courseSection = '';
+  String classCode = '';
 
   void getUser() {
     final user = _auth.currentUser;
@@ -29,8 +30,9 @@ class TaskData extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getSubGroup(String section){
+  void getSubGroup(String section, String code){
     courseSection = section;
+    classCode = code;
     notifyListeners();
   }
 

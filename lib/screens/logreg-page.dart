@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/register.dart';
-import 'package:cms/screens/student-login.dart';
+import 'package:cms/student-screens/student-login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,7 @@
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/task-data.dart';
-import 'package:cms/screens/register.dart';
-import 'package:cms/screens/student-register.dart';
-import 'package:cms/screens/varification.dart';
+import 'package:cms/student-screens/student-register.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

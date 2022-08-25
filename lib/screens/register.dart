@@ -21,7 +21,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _auth = FirebaseAuth.instance;
   late String name;
-  late String mobile;
   late String email;
   late String password;
   late String password2;

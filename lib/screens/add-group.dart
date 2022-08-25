@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/dropdown-field.dart';
 import 'package:cms/components/input-field2.dart';
@@ -130,10 +132,10 @@ class _AddGroupState extends State<AddGroup> {
                                   Provider.of<TaskData>(context, listen: false)
                                       .userEmail
                             });
-
                             final sections = _sectionValue.split(' ');
                             sections.forEach((element) {
                               if(element!='') {
+                                String classCode = getClassCode();
                                 _firestore.collection('subGroups').add({
                                   'groupName': courseCode.toUpperCase(),
                                   'groupBatch': batchNo,
@@ -141,7 +143,8 @@ class _AddGroupState extends State<AddGroup> {
                                   'email':
                                   Provider
                                       .of<TaskData>(context, listen: false)
-                                      .userEmail
+                                      .userEmail,
+                                  'classCode': classCode
                                 });
                               }
                             });
@@ -154,5 +157,20 @@ class _AddGroupState extends State<AddGroup> {
                 )
               ],
             )));
+  }
+
+  String getClassCode(){
+    String uppercaseLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    String lowercaseLetter = "abcdefghijklmnopqrstuvwxyz";
+    String digits = "0123456789";
+
+    String char = '';
+    String str = '';
+    char += "$uppercaseLetter$lowercaseLetter$digits";
+    str += List.generate(8, (index){
+      final indexRandom = Random().nextInt(char.length);
+      return char[indexRandom];
+    }).join('');
+    return str;
   }
 }

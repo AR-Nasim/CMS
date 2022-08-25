@@ -1,18 +1,16 @@
 import 'dart:async';
-
-import 'package:cms/screens/student-group-screen.dart';
-import 'package:cms/screens/teacher-profile-update.dart';
+import 'package:cms/student-screens/student-group-screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class StudentVerification extends StatefulWidget {
-  static String id = 'student-verification';
+class StudentLoginVerification extends StatefulWidget {
+  static String id = 'student-login-verification';
 
   @override
-  _StudentVerificationState createState() => _StudentVerificationState();
+  _StudentLoginVerificationState createState() => _StudentLoginVerificationState();
 }
 
-class _StudentVerificationState extends State<StudentVerification> {
+class _StudentLoginVerificationState extends State<StudentLoginVerification> {
   bool isVarified = false;
   bool canResendEmail = true;
   Timer? timer;

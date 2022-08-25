@@ -10,26 +10,38 @@ final _firestore = FirebaseFirestore.instance;
 late String messageText;
 
 class ChatScreen extends StatefulWidget {
-  static const String id= 'chat_screen';
+  static const String id = 'chat_screen';
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-
+  String _selected = "Get Class Code";
   @override
   Widget build(BuildContext context) {
     String email = Provider.of<TaskData>(context, listen: false).userEmail;
     String code = Provider.of<TaskData>(context, listen: false).courseCode;
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
-    String section = Provider.of<TaskData>(context, listen: false).courseSection;
+    String section =
+        Provider.of<TaskData>(context, listen: false).courseSection;
+    String classCode = Provider.of<TaskData>(context, listen: false).classCode;
     return Scaffold(
       appBar: AppBar(
-        leading: null,
-        title: Text('EEE-1111-50(B)'),
-        backgroundColor: Color(0xFF13192F),
-      ),
+          leading: null,
+          title: Text("$code-$batch($section)"),
+          backgroundColor: Color(0xFF13192F),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (ctx) => [
+                _buildPopupMenuItem('Search'),
+                _buildPopupMenuItem('Upload'),
+                _buildPopupMenuItem('Copy'),
+                _buildPopupMenuItem('Exit'),
+              ],
+            )
+
+          ]),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,10 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Container(
               decoration: BoxDecoration(
                 border: Border(
-                  top: BorderSide(
-                      color: Color(0xFF13192F),
-                      width: 2.0
-                  ),
+                  top: BorderSide(color: Color(0xFF13192F), width: 2.0),
                 ),
               ),
               child: Row(
@@ -56,7 +65,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         messageText = value;
                       },
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         hintText: 'Type your message here...',
                         border: InputBorder.none,
                       ),
@@ -65,10 +75,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   FlatButton(
                     onPressed: () {
                       messageTextController.clear();
-                      _firestore.collection('messages-a.r.nasim74@gmail.com-EEE-1111-50-B').add({
+                      _firestore.collection('messages-$classCode').add({
                         'text': messageText,
                         'sender': email,
-                        'messageTime': DateFormat.Hms().format(DateTime.now()).toString(),
+                        'messageTime':
+                            DateFormat.jm().format(DateTime.now()).toString(),
                       });
                     },
                     child: Text(
@@ -88,16 +99,45 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
+  PopupMenuItem _buildPopupMenuItem(
+      String title) {
+    return PopupMenuItem(
+      child:  Text(title),
+      onTap: (){
+
+        openDialog();
+      },
+    );
+  }
+
+  Future openDialog() => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Class Not Found'),
+      content: Text('Sorry the given code is not valid!!'),
+      actions: [
+        TextButton(
+          onPressed: () {
+
+          },
+          child: Text('Ok'),
+        )
+      ],
+
+    ),
+  );
 }
+
 class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String email = Provider.of<TaskData>(context, listen: false).userEmail;
-    String code = Provider.of<TaskData>(context, listen: false).courseCode;
-    String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
-    String section = Provider.of<TaskData>(context, listen: false).courseSection;
+    String classCode = Provider.of<TaskData>(context, listen: false).classCode;
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages-a.r.nasim74@gmail.com-EEE-1111-50-B').orderBy('messageTime', descending: false).snapshots(),
+      stream: _firestore
+          .collection('messages-$classCode')
+          .orderBy('messageTime', descending: false)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -112,7 +152,8 @@ class MessagesStream extends StatelessWidget {
           final messageText = message['text'];
           final messageSender = message['sender'];
           final messageTime = message['messageTime'];
-          final currentUser = Provider.of<TaskData>(context, listen: false).userEmail;
+          final currentUser =
+              Provider.of<TaskData>(context, listen: false).userEmail;
 
           final messageBubble = MessageBubble(
             sender: messageSender,
@@ -136,7 +177,11 @@ class MessagesStream extends StatelessWidget {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({required this.sender, required this.text,required this.time, required this.isMe});
+  MessageBubble(
+      {required this.sender,
+      required this.text,
+      required this.time,
+      required this.isMe});
 
   final String sender;
   final String text;
@@ -149,7 +194,7 @@ class MessageBubble extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
-        isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             sender,
@@ -161,14 +206,14 @@ class MessageBubble extends StatelessWidget {
           Material(
             borderRadius: isMe
                 ? BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                bottomLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0))
+                    topLeft: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0))
                 : BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
-            ),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
             elevation: 5.0,
             color: isMe ? Color(0xFF13192F) : Colors.white,
             child: Padding(

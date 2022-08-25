@@ -1,9 +1,7 @@
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/input-field.dart';
 import 'package:cms/components/task-data.dart';
-import 'package:cms/screens/login.dart';
-import 'package:cms/screens/student-login.dart';
-import 'package:cms/screens/varification.dart';
+import 'package:cms/student-screens/student-login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +22,6 @@ class StudentRegister extends StatefulWidget {
 class _StudentRegisterState extends State<StudentRegister> {
   final _auth = FirebaseAuth.instance;
   late String name;
-  late String mobile;
   late String email;
   late String password;
   late String password2;
@@ -74,12 +71,6 @@ class _StudentRegisterState extends State<StudentRegister> {
               ),
               InputField('Enter your name', false, (value) {
                 name = value;
-              }),
-              const SizedBox(
-                height: 10.0,
-              ),
-              InputField('Enter mobile number', false, (value) {
-                mobile = value;
               }),
               const SizedBox(
                 height: 10.0,

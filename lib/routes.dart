@@ -4,11 +4,11 @@ import 'package:cms/screens/group-screen.dart';
 import 'package:cms/screens/image-resource.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/register.dart';
-import 'package:cms/screens/student-group-screen.dart';
 import 'package:cms/screens/teacher-profile-update.dart';
 import 'package:cms/screens/teacher-profile.dart';
 import 'package:cms/screens/video.resource.dart';
 import 'package:cms/screens/welcome-page.dart';
+import 'package:cms/student-screens/student-group-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
@@ -19,9 +19,12 @@ import 'screens/chat-screen.dart';
 import 'screens/login-varification.dart';
 import 'screens/logreg-page.dart';
 import 'screens/resource.dart';
-import 'screens/student-login.dart';
-import 'screens/student-register.dart';
-import 'screens/student-verification.dart';
+import 'student-screens/join-group.dart';
+import 'student-screens/student-login-verification.dart';
+import 'student-screens/student-login.dart';
+import 'student-screens/student-profile-update.dart';
+import 'student-screens/student-register.dart';
+import 'student-screens/student-verification.dart';
 import 'screens/subgroup-screen.dart';
 import 'screens/varification.dart';
 
@@ -44,7 +47,7 @@ class _RoutesState extends State<Routes> {
     final _auth = FirebaseAuth.instance;
     final user = _auth.currentUser;
     if(user!=null) {
-      currentPage = Groups.id;
+      currentPage = StudentGroupScreen.id;
       await Future.delayed(Duration(milliseconds: 500),(){
         Provider.of<TaskData>(context,listen: false).getUser();
       });
@@ -73,12 +76,18 @@ class _RoutesState extends State<Routes> {
         AddImage.id:(context) => AddImage(),
         VideoResources.id: (context) => VideoResources(),
         AddVideo.id: (context) => AddVideo(),
+
+
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
         StudentGroupScreen.id: (context) => StudentGroupScreen(),
         StudentVerification.id: (context) => StudentVerification(),
+        StudentLoginVerification.id: (context) => StudentLoginVerification(),
+        StudentProfileUpdate.id: (context) => StudentProfileUpdate(),
+        JoinGroup.id: (context) => JoinGroup(),
 
       },
     );
+
   }
 }

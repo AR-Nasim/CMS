@@ -25,6 +25,13 @@ class _SubGroupsState extends State<SubGroups> {
 
   @override
   Widget build(BuildContext context) {
+    String email = Provider.of<TaskData>(context,listen: false).userEmail;
+    String courseCode = Provider.of<TaskData>(context,
+        listen: false)
+        .courseCode;
+    String courseBatch = Provider.of<TaskData>(context,
+        listen: false)
+        .courseBatch;
     return Scaffold(
         key: _globalKey,
         drawer: CustomDrawer(),
@@ -117,7 +124,7 @@ class _SubGroupsState extends State<SubGroups> {
                   height: 20.0,
                 ),
                 StreamBuilder<QuerySnapshot>(
-                    stream: _firestore.collection('subGroups').snapshots(),
+                    stream: _firestore.collection('subGroups').where('email', isEqualTo: email).where('groupName', isEqualTo: courseCode).where('groupBatch', isEqualTo: courseBatch).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return LinearProgressIndicator();
@@ -129,17 +136,6 @@ class _SubGroupsState extends State<SubGroups> {
                             child: ListView.builder(
                                 itemCount: docs.length,
                                 itemBuilder: (context, i) {
-                                  String email = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .userEmail;
-                                  String courseCode = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .courseCode;
-                                  String courseBatch = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .courseBatch;
-                                  if (docs[i].exists &&
-                                      docs[i]['email'] == email && docs[i]['groupName'] == courseCode && docs[i]['groupBatch'] == courseBatch) {
                                     final data = docs[i];
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
@@ -176,7 +172,7 @@ class _SubGroupsState extends State<SubGroups> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: (){
-                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection']);
+                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
                                                     Navigator.pushNamed(context, ChatScreen.id);
                                                   },
                                                   child: Column(
@@ -211,8 +207,6 @@ class _SubGroupsState extends State<SubGroups> {
                                         ),
                                       ),
                                     );
-                                  } else
-                                    return Container();
                                 }
                             ),
                           ),

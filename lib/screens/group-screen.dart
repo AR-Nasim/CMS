@@ -116,7 +116,7 @@ class _GroupsState extends State<Groups> {
                   height: 20.0,
                 ),
                 StreamBuilder<QuerySnapshot>(
-                    stream: _firestore.collection('groups').snapshots(),
+                    stream: _firestore.collection('groups').where('email', isEqualTo: Provider.of<TaskData>(context,listen: false).userEmail).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return LinearProgressIndicator();
@@ -128,11 +128,6 @@ class _GroupsState extends State<Groups> {
                             child: ListView.builder(
                               itemCount: docs.length,
                               itemBuilder: (context, i) {
-                                if (docs[i].exists &&
-                                    docs[i]['email'] ==
-                                        Provider.of<TaskData>(context,
-                                                listen: false)
-                                            .userEmail) {
                                   final data = docs[i];
                                   String courseStr = "";
                                   String courseNo = "";
@@ -218,8 +213,6 @@ class _GroupsState extends State<Groups> {
                                       ),
                                     ),
                                   );
-                                } else
-                                  return Container();
                               }
                             ),
                           ),

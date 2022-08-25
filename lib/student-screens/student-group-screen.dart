@@ -3,14 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/resource.dart';
+import 'package:cms/student-screens/join-group.dart';
 import 'package:flutter/material.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:provider/provider.dart';
 import '../components/navigation.dart';
-import 'add-group.dart';
+import '../screens/add-group.dart';
 import 'dart:math' as math;
 
-import 'chat-screen.dart';
+import '../screens/chat-screen.dart';
 
 class StudentGroupScreen extends StatefulWidget {
   static String id = 'student-group-screen';
@@ -25,15 +26,16 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String email = Provider.of<TaskData>(context,listen: false).userEmail;
     return Scaffold(
         key: _globalKey,
         drawer: CustomDrawer(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, AddGroup.id);
+            Navigator.pushNamed(context, JoinGroup.id);
           },
           label: Text(
-            "Add Groups",
+            "Join Groups",
             textAlign: TextAlign.center,
           ),
           backgroundColor: Color(0xFF13192F),
@@ -117,7 +119,7 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                   height: 20.0,
                 ),
                 StreamBuilder<QuerySnapshot>(
-                    stream: _firestore.collection('subGroups').snapshots(),
+                    stream: _firestore.collection('studentGroups').where('email', isEqualTo: email).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return LinearProgressIndicator();
@@ -129,17 +131,7 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                             child: ListView.builder(
                                 itemCount: docs.length,
                                 itemBuilder: (context, i) {
-                                  String email = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .userEmail;
-                                  String courseCode = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .courseCode;
-                                  String courseBatch = Provider.of<TaskData>(context,
-                                      listen: false)
-                                      .courseBatch;
-                                  if (docs[i].exists &&
-                                      docs[i]['email'] == "a.r.nasim74@gmail.com" && docs[i]['groupName'] == "CSE-1111" && docs[i]['groupBatch'] == "50") {
+
                                     final data = docs[i];
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
@@ -176,7 +168,8 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: (){
-                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection']);
+                                                    Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
+                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
                                                     Navigator.pushNamed(context, ChatScreen.id);
                                                   },
                                                   child: Column(
@@ -211,8 +204,6 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                                         ),
                                       ),
                                     );
-                                  } else
-                                    return Container();
                                 }
                             ),
                           ),

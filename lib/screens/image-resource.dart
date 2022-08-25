@@ -50,7 +50,7 @@ class _ImageResourcesState extends State<ImageResources> {
                 }),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('imageURLs-$email-$code-$batch')
+                      .collection('imageURLs').where('email', isEqualTo: email).where('courseCode', isEqualTo:code).where('courseBatch', isEqualTo: batch)
                       .snapshots(),
                   builder: (context, snapshot) {
                     return !snapshot.hasData

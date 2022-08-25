@@ -85,7 +85,7 @@ class _AddVideoState extends State<AddVideo> {
       ref = FirebaseStorage.instance.ref().child('videoResources/$email/$code-$batch/$newFileName');
       await ref.putFile(video).whenComplete(()async{
         await ref.getDownloadURL().then((value){
-          videoRef.add({'url': value});
+          videoRef.add({'url': value,'email':email, 'courseCode':code, 'courseBatch': batch});
         }
         );
       });
@@ -98,7 +98,7 @@ class _AddVideoState extends State<AddVideo> {
     String email = Provider.of<TaskData>(context, listen: false).userEmail;
     String code = Provider.of<TaskData>(context, listen: false).courseCode;
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
-    videoRef = FirebaseFirestore.instance.collection('videoURLs-$email-$code-$batch');
+    videoRef = FirebaseFirestore.instance.collection('videoURLs');
   }
 }
 
