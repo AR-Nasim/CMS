@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:cms/components/task-data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +20,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  String _selected = "Get Class Code";
   @override
   Widget build(BuildContext context) {
     String email = Provider.of<TaskData>(context, listen: false).userEmail;
+    String name = Provider.of<TaskData>(context, listen: false).userName;
     String code = Provider.of<TaskData>(context, listen: false).courseCode;
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
     String section =
@@ -33,14 +36,54 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: Color(0xFF13192F),
           actions: [
             PopupMenuButton(
-              itemBuilder: (ctx) => [
-                _buildPopupMenuItem('Search'),
-                _buildPopupMenuItem('Upload'),
-                _buildPopupMenuItem('Copy'),
-                _buildPopupMenuItem('Exit'),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Text('Classroom Code'),
+                  onTap: () {
+                    Future.delayed(
+                        const Duration(seconds: 0),
+                        () => showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('This Classroom Code'),
+                                content: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 0.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        classCode,
+                                        style: TextStyle(
+                                            color: Color(0xFF13192F),
+                                            fontSize: 18.0),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.copy,
+                                          color: Color(0xFF13192F),
+                                          size: 18.0,
+                                        ),
+                                        onPressed: () {
+                                          Clipboard.setData(ClipboardData(text: classCode));
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text('Ok',style: TextStyle(color: Color(0xFF13192F)),),
+                                    onPressed: () => Navigator.pop(context),
+                                  )
+                                ],
+                              ),
+                            ));
+                  },
+                )
               ],
             )
-
           ]),
       body: SafeArea(
         child: Column(
@@ -78,8 +121,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       _firestore.collection('messages-$classCode').add({
                         'text': messageText,
                         'sender': email,
-                        'messageTime':
-                            DateFormat.jm().format(DateTime.now()).toString(),
+                        'name': name,
+                        'messageSerial': DateFormat.Hms().format(DateTime.now()).toString(),
+                        'messageTime': DateFormat.jm().format(DateTime.now()).toString(),
                       });
                     },
                     child: Text(
@@ -100,33 +144,28 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  PopupMenuItem _buildPopupMenuItem(
-      String title) {
+  PopupMenuItem _buildPopupMenuItem(String title) {
     return PopupMenuItem(
-      child:  Text(title),
-      onTap: (){
-
+      child: Text(title),
+      onTap: () {
         openDialog();
       },
     );
   }
 
   Future openDialog() => showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Class Not Found'),
-      content: Text('Sorry the given code is not valid!!'),
-      actions: [
-        TextButton(
-          onPressed: () {
-
-          },
-          child: Text('Ok'),
-        )
-      ],
-
-    ),
-  );
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Class Not Found'),
+          content: Text('Sorry the given code is not valid!!'),
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
 }
 
 class MessagesStream extends StatelessWidget {
@@ -134,9 +173,10 @@ class MessagesStream extends StatelessWidget {
   Widget build(BuildContext context) {
     String classCode = Provider.of<TaskData>(context, listen: false).classCode;
     return StreamBuilder<QuerySnapshot>(
+
       stream: _firestore
           .collection('messages-$classCode')
-          .orderBy('messageTime', descending: false)
+          .orderBy('messageSerial', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -150,23 +190,23 @@ class MessagesStream extends StatelessWidget {
         List<MessageBubble> messageBubbles = [];
         for (var message in messages!) {
           final messageText = message['text'];
-          final messageSender = message['sender'];
+          final messageSender = message['name'];
+          final senderEmail = message['sender'];
           final messageTime = message['messageTime'];
-          final currentUser =
-              Provider.of<TaskData>(context, listen: false).userEmail;
+          final currentUser = Provider.of<TaskData>(context, listen: false).userEmail;
 
           final messageBubble = MessageBubble(
             sender: messageSender,
             text: messageText,
             time: messageTime,
-            isMe: currentUser == messageSender,
+            isMe: currentUser == senderEmail,
           );
 
           messageBubbles.add(messageBubble);
         }
         return Expanded(
           child: ListView(
-            //reverse: true,
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
@@ -221,7 +261,7 @@ class MessageBubble extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: isMe ? Colors.white : Colors.black54,
+                  color: isMe ? Colors.white : Colors.black,
                   fontSize: 15.0,
                 ),
               ),

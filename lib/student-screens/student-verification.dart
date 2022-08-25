@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cms/student-screens/student-group-screen.dart';
+import 'package:cms/student-screens/student-profile-update.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _StudentVerificationState extends State<StudentVerification> {
 
   Widget build(BuildContext context) {
     if(isVarified) {
-      return StudentGroupScreen();
+      return StudentProfileUpdate();
     } else {
       return Scaffold(
         appBar: AppBar(

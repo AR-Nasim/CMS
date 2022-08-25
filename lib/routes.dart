@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/screens/add-group.dart';
 import 'package:cms/screens/add-image.dart';
 import 'package:cms/screens/group-screen.dart';
@@ -46,13 +47,19 @@ class _RoutesState extends State<Routes> {
   void getStart()async{
     final _auth = FirebaseAuth.instance;
     final user = _auth.currentUser;
-    if(user!=null) {
-      currentPage = StudentGroupScreen.id;
+    if(user!=null){
+      List<String> splitted = user.displayName!.split(' ');
+      if(splitted[splitted.length-1] != "student"){
+        currentPage = Groups.id;
+      }
+      else{
+        currentPage = StudentGroupScreen.id;
+      }
       await Future.delayed(Duration(milliseconds: 500),(){
         Provider.of<TaskData>(context,listen: false).getUser();
       });
-    }
 
+    }
   }
   @override
   Widget build(BuildContext context) {

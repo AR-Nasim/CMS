@@ -26,6 +26,7 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     String email = Provider.of<TaskData>(context,listen: false).userEmail;
     return Scaffold(
         key: _globalKey,

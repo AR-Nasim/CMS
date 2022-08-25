@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/input-field2.dart';
 import 'package:cms/components/multi-dropdown-field.dart';
 import 'package:cms/screens/group-screen.dart';
+import 'package:cms/student-screens/student-group-screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -68,8 +69,7 @@ class _StudentProfileUpdateState extends State<StudentProfileUpdate> {
             'mobile': mobile,
             'email': Provider.of<TaskData>(context, listen: false).userEmail
           });
-          uploadFile();
-          Navigator.pushNamed(context, Groups.id);
+          Navigator.pushNamed(context, StudentGroupScreen.id);
         },
         backgroundColor: Color(0xFF13192F),
         child: Icon(Icons.arrow_forward_sharp),
@@ -213,25 +213,6 @@ class _StudentProfileUpdateState extends State<StudentProfileUpdate> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  GestureDetector(
-                    onTap: selectFile,
-                    child: Container(
-                      width: screenWidth,
-                      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color(0xFF13192F), width: 2.0),
-                        color: Color(0xFF13192F),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Text(
-                        fileName,
-                        style: TextStyle(
-                            color: Colors.white, fontSize: 16.0),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  )
                 ],
               ),
             )
@@ -239,40 +220,5 @@ class _StudentProfileUpdateState extends State<StudentProfileUpdate> {
         ),
       ),
     );
-  }
-
-  Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
-    if (result == null) return;
-    final path = result.files.single.path!;
-    setState(() {
-      file = File(path);
-    });
-  }
-
-  Future uploadFile() async {
-    String email = Provider.of<TaskData>(context, listen: false).userEmail;
-    if(file == null)return;
-    final fileName = file!.path.split('/').last;
-    final destination = 'teacherRoutine/$email/$fileName';
-    try{
-      final ref = FirebaseStorage.instance.ref(destination);
-      ref.putFile(file!).whenComplete(()async{
-        await ref.getDownloadURL().then((value){
-          routineRef.add({'url': fileName,'email':email, 'fileName': fileName});
-        }
-        );
-      });
-    }
-    catch(e){
-      return null;
-    }
-
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    routineRef = FirebaseFirestore.instance.collection('routineURLs');
   }
 }

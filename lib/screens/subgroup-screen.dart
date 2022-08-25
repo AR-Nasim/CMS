@@ -22,6 +22,7 @@ class SubGroups extends StatefulWidget {
 class _SubGroupsState extends State<SubGroups> {
   final _firestore = FirebaseFirestore.instance;
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  String lastMessage = "Welcome to our group";
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +138,12 @@ class _SubGroupsState extends State<SubGroups> {
                                 itemCount: docs.length,
                                 itemBuilder: (context, i) {
                                     final data = docs[i];
+                                    _firestore.collection("messages-${data['classCode']}").orderBy('messageTime', descending: true).get().then((value){
+                                      lastMessage = "Welcome to our group";
+                                          if(value.docs.length > 0) {
+                                            lastMessage = value.docs[0]['text'];
+                                          }
+                                    });
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 5.0, horizontal: 15.0),
@@ -188,7 +195,7 @@ class _SubGroupsState extends State<SubGroups> {
                                                         ),
                                                         SizedBox(height: 2.0,),
                                                         Text(
-                                                          'Welcome to our group',
+                                                          lastMessage,
                                                           style: TextStyle(
                                                               fontSize: 16.0,
                                                               fontWeight:

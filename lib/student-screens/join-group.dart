@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../components/multi-dropdown-field.dart';
 
 class JoinGroup extends StatefulWidget {
-  static String id = 'add-group';
+  static String id = 'join-group';
 
   @override
   _JoinGroupState createState() => _JoinGroupState();

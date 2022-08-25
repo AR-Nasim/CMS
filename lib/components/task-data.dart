@@ -13,9 +13,19 @@ class TaskData extends ChangeNotifier{
   String classCode = '';
 
   void getUser() {
+    userName = '';
     final user = _auth.currentUser;
     if(user!=null){
-      userName = user.displayName!;
+      List<String> splitted = user.displayName!.split(' ');
+      if(splitted[splitted.length-1] != "student"){
+        userName = user.displayName!;
+      }
+      else{
+        for(int i=0;i<splitted.length-1;i++){
+          userName += splitted[i];
+          if(i!=splitted.length-2)userName +=' ';
+        }
+      }
       userEmail = user.email!;
       if(user.photoURL != null) {
         userPhoto = user.photoURL!;

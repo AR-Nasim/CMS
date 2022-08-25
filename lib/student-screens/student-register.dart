@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/input-field.dart';
 import 'package:cms/components/task-data.dart';
@@ -122,9 +123,10 @@ class _StudentRegisterState extends State<StudentRegister> {
                           }
                           if (result != null) {
                             await _auth.currentUser
-                                ?.updateDisplayName(name);
+                                ?.updateDisplayName(name+" student");
                             Provider.of<TaskData>(context, listen: false)
                                 .getUser();
+                            FirebaseFirestore.instance.collection('students').add({'email': _auth.currentUser?.email});
                             Navigator.pushNamed(context, StudentVerification.id);
                           }
                           setState(() {

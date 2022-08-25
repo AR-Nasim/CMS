@@ -1,5 +1,6 @@
 import 'package:cms/components/error-message.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:cms/student-screens/student-login-verification.dart';
 import 'package:cms/student-screens/student-register.dart';
 
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class _StudentLoginState extends State<StudentLogin> {
                           email: email, password: password);
                       if (user != null) {
                         Provider.of<TaskData>(context,listen:false).getUser();
-                        Navigator.pushNamed(context, StudentVerification.id);
+                        Navigator.pushNamed(context, StudentLoginVerification.id);
                       }
                       setState(() {
                         spinner = false;

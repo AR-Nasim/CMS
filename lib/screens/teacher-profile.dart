@@ -32,6 +32,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _globalKey,
       drawer: CustomDrawer(),
       body: ColorfulSafeArea(
@@ -147,12 +148,15 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 25.0, bottom: 20.0),
-                                    child: Text(
-                                      data['bio'],
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Color(0xFF13192F),
-                                        fontWeight: FontWeight.bold,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width - 25.0,
+                                      child: Text(
+                                        data['bio'],
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Color(0xFF13192F),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
