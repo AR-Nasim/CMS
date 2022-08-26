@@ -147,41 +147,49 @@ class _SubGroupsState extends State<SubGroups> {
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 5.0, horizontal: 15.0),
-                                      child: Container(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(bottom: 5.0),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  child: Column(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          data['groupBatch'] +'(' + data['groupSection'] + ')',
-                                                          style: TextStyle(
-                                                              color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500),
-                                                        ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 5.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            children: [
+                                              CircleAvatar(
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        data['groupBatch'] +'(' + data['groupSection'] + ')',
+                                                        style: TextStyle(
+                                                            color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500),
+                                                      ),
 
-                                                      ]),
-                                                  radius: 28,
-                                                  backgroundColor: Color((math
-                                                      .Random()
-                                                      .nextDouble() *
-                                                      0xFFFF55)
-                                                      .toInt())
-                                                      .withOpacity(0.6),
-                                                ),
-                                                SizedBox(
-                                                  width: 10.0,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: (){
-                                                    Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
-                                                    Navigator.pushNamed(context, ChatScreen.id);
-                                                  },
+                                                    ]),
+                                                radius: 28,
+                                                backgroundColor: Color((math
+                                                    .Random()
+                                                    .nextDouble() *
+                                                    0xFFFF55)
+                                                    .toInt())
+                                                    .withOpacity(0.6),
+                                              ),
+                                              SizedBox(
+                                                width: 10.0,
+                                              ),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
+                                                  Navigator.pushNamed(context, ChatScreen.id);
+                                                },
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width - 100,
+                                                  padding: EdgeInsets.only(bottom: 8.0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border(
+                                                      bottom:
+                                                      BorderSide(color: Color(0xFF808080).withOpacity(0.6)),
+                                                    ),
+                                                  ),
                                                   child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -204,14 +212,8 @@ class _SubGroupsState extends State<SubGroups> {
                                                         ),
                                                       ]),
                                                 ),
-                                              ]),
-                                        ),
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom:
-                                            BorderSide(color: Color(0xFF808080).withOpacity(0.3)),
-                                          ),
-                                        ),
+                                              ),
+                                            ]),
                                       ),
                                     );
                                 }

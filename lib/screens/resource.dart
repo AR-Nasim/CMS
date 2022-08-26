@@ -21,6 +21,7 @@ class _ResourcesState extends State<Resources> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         key: _globalKey,
         drawer:CustomDrawer() ,
         body: ColorfulSafeArea(

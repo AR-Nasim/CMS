@@ -16,14 +16,14 @@ import 'package:provider/provider.dart';
 
 import '../components/custom-drawer.dart';
 
-class TeacherProfile extends StatefulWidget {
-  static String id = "teacher-profile";
+class StudentProfile extends StatefulWidget {
+  static String id = "student-profile";
 
   @override
-  State<TeacherProfile> createState() => _TeacherProfileState();
+  State<StudentProfile> createState() => _StudentProfileState();
 }
 
-class _TeacherProfileState extends State<TeacherProfile> {
+class _StudentProfileState extends State<StudentProfile> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   final _firestore = FirebaseFirestore.instance;
   double downloadProgress = 0.0;
@@ -38,7 +38,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
       body: ColorfulSafeArea(
         color: Color(0xFF13192F),
         child: StreamBuilder<QuerySnapshot>(
-            stream: _firestore.collection('teacherProfile').where('email', isEqualTo:Provider.of<TaskData>(context).userEmail).snapshots(),
+            stream: _firestore.collection('studentProfile').where('email', isEqualTo:Provider.of<TaskData>(context).userEmail).snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return LinearProgressIndicator();
@@ -64,7 +64,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                 Container(
                                   height: 28.0,
                                   margin:
-                                      EdgeInsets.only(right: 50.0, bottom: 1.0),
+                                  EdgeInsets.only(right: 50.0, bottom: 1.0),
                                   color: Color(0xFF13192F),
                                 ),
                                 Container(
@@ -90,11 +90,11 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                       radius: 78.0,
                                       child: CircleAvatar(
                                         backgroundImage: Provider.of<TaskData>(
-                                                        context)
-                                                    .userPhoto ==
-                                                ''
+                                            context)
+                                            .userPhoto ==
+                                            ''
                                             ? NetworkImage(
-                                                'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-369-456321-512.png')
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
                                             : NetworkImage(Provider.of<
                                             TaskData>(context)
                                             .userPhoto),
@@ -117,7 +117,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                 ),
                               ),
                               Text(
-                                data['position'],
+                                "Batch ${data['batch']}",
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   color: Color(0xFF13192F),
@@ -206,50 +206,6 @@ class _TeacherProfileState extends State<TeacherProfile> {
                               ),
                             ],
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('routineURLs')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                return !snapshot.hasData
-                                    ? Center(
-                                  child:
-                                  CircularProgressIndicator(
-                                    backgroundColor: Colors.black,
-                                  ),
-                                )
-                                    : ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.docs.length,
-                                  itemBuilder: (context, index) {
-                                    final data = snapshot.data!.docs[index];
-                                    final url = data['url'];
-                                    String email = Provider.of<TaskData>(
-                                        context,listen: false).userEmail;
-                                    if (data['email'] == email) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            downloadFile(url, data['fileName']);
-                                          },
-                                          child: ListTile(
-                                            title: Text('Download Routine',style: TextStyle(fontSize: 18.0,color: Color(0xFF13192F)),),
-
-                                            trailing: IconButton(
-                                              onPressed: (){
-                                                downloadFile(url, data['fileName']);
-                                              },
-                                              icon: Icon(Icons.download_sharp),
-                                            ),
-
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    else return Container();
-                                  });
-                              })
                         ],
                       );
                     } else {
@@ -262,18 +218,4 @@ class _TeacherProfileState extends State<TeacherProfile> {
       ),
     );
   }
-
-  Future downloadFile(final url, String fileName) async {
-    final tempDir = await getTemporaryDirectory();
-    final path = '${tempDir.path}/$fileName';
-    await Dio().download(url, path);
-    if(url.contains('.jpg') || url.contains('.png') || url.contains('.jpeg')){
-      await GallerySaver.saveImage(path,toDcim: true);
-    }
-    if(url.contains('.mp4')){
-      await GallerySaver.saveVideo(path,toDcim: true);
-    }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Completed"),));
-  }
-
 }

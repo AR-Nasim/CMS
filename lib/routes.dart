@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cms/screens/profile-settings.dart';
 import 'package:cms/screens/add-group.dart';
 import 'package:cms/screens/add-image.dart';
 import 'package:cms/screens/group-screen.dart';
@@ -14,20 +14,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'screens/add-video.dart';
 import 'screens/chat-screen.dart';
 import 'screens/login-varification.dart';
 import 'screens/logreg-page.dart';
 import 'screens/resource.dart';
+import 'screens/teacher-edit-profile.dart';
 import 'student-screens/join-group.dart';
 import 'student-screens/student-login-verification.dart';
 import 'student-screens/student-login.dart';
 import 'student-screens/student-profile-update.dart';
+import 'student-screens/student-profile.dart';
 import 'student-screens/student-register.dart';
 import 'student-screens/student-verification.dart';
 import 'screens/subgroup-screen.dart';
 import 'screens/varification.dart';
+import 'student-screens/stundet-edit-profile.dart';
 
 
 class Routes extends StatefulWidget {
@@ -37,7 +39,7 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
-  String currentPage = WelcomePage.id;
+  String currentPage = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -55,10 +57,12 @@ class _RoutesState extends State<Routes> {
       else{
         currentPage = StudentGroupScreen.id;
       }
-      await Future.delayed(Duration(milliseconds: 500),(){
+      await Future.delayed(Duration(milliseconds: 1500),(){
         Provider.of<TaskData>(context,listen: false).getUser();
       });
-
+    }
+    else{
+      currentPage = WelcomePage.id;
     }
   }
   @override
@@ -74,6 +78,7 @@ class _RoutesState extends State<Routes> {
         LoginVarification.id: (context) => LoginVarification(),
         TeacherProfileUpdate.id: (context) => TeacherProfileUpdate(),
         TeacherProfile.id: (context) => TeacherProfile(),
+        TeacherEditProfile.id:(context) => TeacherEditProfile(),
         AddGroup.id: (context) => AddGroup(),
         SubGroups.id: (context) => SubGroups(),
         ChatScreen.id: (context) => ChatScreen(),
@@ -84,6 +89,7 @@ class _RoutesState extends State<Routes> {
         VideoResources.id: (context) => VideoResources(),
         AddVideo.id: (context) => AddVideo(),
 
+        ProfileSettings.id: (context) => ProfileSettings(),
 
         StudentLogin.id: (context) => StudentLogin(),
         StudentRegister.id: (context) => StudentRegister(),
@@ -91,6 +97,8 @@ class _RoutesState extends State<Routes> {
         StudentVerification.id: (context) => StudentVerification(),
         StudentLoginVerification.id: (context) => StudentLoginVerification(),
         StudentProfileUpdate.id: (context) => StudentProfileUpdate(),
+        StudentProfile.id: (context) => StudentProfile(),
+        StudentEditProfile.id: (context) => StudentEditProfile(),
         JoinGroup.id: (context) => JoinGroup(),
 
       },

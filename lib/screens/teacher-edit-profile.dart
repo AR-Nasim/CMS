@@ -15,18 +15,18 @@ import 'package:image_picker/image_picker.dart';
 
 import '../components/dropdown-field.dart';
 
-class TeacherProfileUpdate extends StatefulWidget {
-  static String id = 'teacher-profile-update';
+class TeacherEditProfile extends StatefulWidget {
+  static String id = 'teacher-edit-profile';
 
   @override
-  _TeacherProfileUpdateState createState() => _TeacherProfileUpdateState();
+  _TeacherEditProfileState createState() => _TeacherEditProfileState();
 }
 
-class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
+class _TeacherEditProfileState extends State<TeacherEditProfile> {
   late PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
   late bool isImage = false;
-  final user =  FirebaseAuth.instance.currentUser;
+  final user = FirebaseAuth.instance.currentUser;
 
   File? file = null;
 
@@ -38,16 +38,19 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
       _imageFile = pickedFile!;
     });
     File img = File(_imageFile.path);
-    String newFileName = img.path.toString().split('/').last;
-    final ref = FirebaseStorage.instance.ref().child('profileImages/${user?.email}/$newFileName');
-    await ref.putFile(img).whenComplete(()async{
-      await ref.getDownloadURL().then((value){
+    String newFileName = img.path
+        .toString()
+        .split('/')
+        .last;
+    final ref = FirebaseStorage.instance.ref().child(
+        'profileImages/${user?.email}/$newFileName');
+    await ref.putFile(img).whenComplete(() async {
+      await ref.getDownloadURL().then((value) {
         user?.updatePhotoURL(value);
         Provider.of<TaskData>(context, listen: false).updatePhoto(value);
       }
       );
     });
-
   }
 
   final _firestore = FirebaseFirestore.instance;
@@ -70,11 +73,38 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
 
   late CollectionReference routineRef;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    await FirebaseFirestore.instance.collection('teacherProfile').where(
+        'email', isEqualTo: user?.email).get().then((value) {
+      final data = value.docs[0];
+      print(data['bio']);
+      setState(() {
+        _dropDownValue = data['dept'];
+        _position = data['position'];
+        bio = data['bio'];
+        mobile = data['mobile'];
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final fileName = file != null ? file!.path.split('/').last : "Add file";
-    double screenWidth = MediaQuery.of(context).size.width;
+    final fileName = file != null ? file!
+        .path
+        .split('/')
+        .last : "Add file";
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -86,12 +116,16 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _firestore.collection('teacherProfile').doc(Provider.of<TaskData>(context, listen: false).userEmail).set({
+            _firestore.collection('teacherProfile').doc(Provider
+                .of<TaskData>(context, listen: false)
+                .userEmail).update({
               'position': _position,
               'dept': _dropDownValue,
               'bio': bio,
               'mobile': mobile,
-              'email': Provider.of<TaskData>(context, listen: false).userEmail
+              'email': Provider
+                  .of<TaskData>(context, listen: false)
+                  .userEmail
             });
             uploadFile();
             Navigator.pushNamed(context, Groups.id);
@@ -114,11 +148,16 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                     backgroundColor: Color(0xFF13192F),
                     child: CircleAvatar(
                       radius: 95.0,
-                      backgroundImage: Provider.of<TaskData>(context).userPhoto ==
-                              ''
-                          ? NetworkImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
-                          : NetworkImage(Provider.of<TaskData>(context).userPhoto)
-                              as ImageProvider, // : FileImage() as ImageProvider,
+                      backgroundImage: Provider
+                          .of<TaskData>(context)
+                          .userPhoto ==
+                          ''
+                          ? NetworkImage(
+                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+                          : NetworkImage(Provider
+                          .of<TaskData>(context)
+                          .userPhoto)
+                      as ImageProvider, // : FileImage() as ImageProvider,
                       backgroundColor: Colors.white,
                     ),
                   ),
@@ -136,7 +175,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                                 child: DialogButton(
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: const [
                                       Icon(Icons.camera),
                                       Text(
@@ -161,13 +200,14 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                                 child: DialogButton(
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                       children: const [
                                         Icon(Icons.image),
                                         Text(
                                           "Gallery",
                                           style: TextStyle(
-                                              color: Colors.black, fontSize: 20),
+                                              color: Colors.black,
+                                              fontSize: 20),
                                         ),
                                       ],
                                     ),
@@ -195,7 +235,9 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
               ),
               SizedBox(height: 10.0),
               Text(
-                Provider.of<TaskData>(context).userName,
+                Provider
+                    .of<TaskData>(context)
+                    .userName,
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
               ),
               SizedBox(
@@ -208,7 +250,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                   //crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     MultiDropdownField(
-                        'Select your position', _position, positions, (value) {
+                        _position, _position, positions, (value) {
                       setState(() {
                         selectPositions = value;
                         _position = '';
@@ -239,7 +281,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    InputField2("Add Bio", false, (value) {
+                    InputField2(bio, false, (value) {
                       setState(() {
                         bio = value;
                       });
@@ -247,7 +289,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    InputField2('Mobile Number', false, (value) {
+                    InputField2(mobile, false, (value) {
                       setState(() {
                         mobile = value;
                       });
@@ -255,25 +297,26 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    GestureDetector(
-                      onTap: selectFile,
-                      child: Container(
-                        width: screenWidth,
-                        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color(0xFF13192F), width: 2.0),
-                            color: Color(0xFF13192F),
-                            borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Text(
-                          fileName,
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 16.0),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    )
+                    // GestureDetector(
+                    //   onTap: selectFile,
+                    //   child: Container(
+                    //     width: screenWidth,
+                    //     padding: EdgeInsets.symmetric(
+                    //         vertical: 12.0, horizontal: 20.0),
+                    //     decoration: BoxDecoration(
+                    //       border: Border.all(
+                    //           color: Color(0xFF13192F), width: 2.0),
+                    //       color: Color(0xFF13192F),
+                    //       borderRadius: BorderRadius.circular(15.0),
+                    //     ),
+                    //     child: Text(
+                    //       fileName,
+                    //       style: TextStyle(
+                    //           color: Colors.white, fontSize: 16.0),
+                    //       overflow: TextOverflow.ellipsis,
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               )
@@ -294,28 +337,27 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
   }
 
   Future uploadFile() async {
-    String email = Provider.of<TaskData>(context, listen: false).userEmail;
-    if(file == null)return;
-    final fileName = file!.path.split('/').last;
+    String email = Provider
+        .of<TaskData>(context, listen: false)
+        .userEmail;
+    if (file == null) return;
+    final fileName = file!
+        .path
+        .split('/')
+        .last;
     final destination = 'teacherRoutine/$email/$fileName';
-    try{
+    try {
       final ref = FirebaseStorage.instance.ref(destination);
-      ref.putFile(file!).whenComplete(()async{
-        await ref.getDownloadURL().then((value){
-          routineRef.add({'url': fileName,'email':email, 'fileName': fileName});
+      ref.putFile(file!).whenComplete(() async {
+        await ref.getDownloadURL().then((value) {
+          routineRef.add(
+              {'url': fileName, 'email': email, 'fileName': fileName});
         }
         );
       });
     }
-    catch(e){
+    catch (e) {
       return null;
     }
-
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    routineRef = FirebaseFirestore.instance.collection('routineURLs');
   }
 }

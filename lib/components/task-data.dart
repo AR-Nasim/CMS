@@ -11,6 +11,7 @@ class TaskData extends ChangeNotifier{
   String courseBatch = '';
   String courseSection = '';
   String classCode = '';
+  bool isStudent = false;
 
   void getUser() {
     userName = '';
@@ -21,6 +22,7 @@ class TaskData extends ChangeNotifier{
         userName = user.displayName!;
       }
       else{
+        isStudent = true;
         for(int i=0;i<splitted.length-1;i++){
           userName += splitted[i];
           if(i!=splitted.length-2)userName +=' ';
@@ -59,6 +61,12 @@ class TaskData extends ChangeNotifier{
     _auth.signOut();
     userName = '';
     userEmail = '';
+    userPhoto = '';
+    courseCode = '';
+    courseBatch = '';
+    courseSection = '';
+    classCode = '';
+    isStudent = false;
     notifyListeners();
   }
 }
