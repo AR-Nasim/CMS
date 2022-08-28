@@ -1,3 +1,5 @@
+import 'package:cms/screens/add-class-work.dart';
+import 'package:cms/screens/classwork.dart';
 import 'package:cms/screens/group-info.dart';
 import 'package:cms/screens/onboarding-screen.dart';
 import 'package:cms/screens/profile-settings.dart';
@@ -43,7 +45,7 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
-  String currentPage = WelcomePage.id;
+  String currentPage = OnBoardingScreen.id;
   @override
   void initState() {
     // TODO: implement initState
@@ -101,6 +103,8 @@ class _RoutesState extends State<Routes> {
         AddImage.id:(context) => AddImage(),
         VideoResources.id: (context) => VideoResources(),
         AddVideo.id: (context) => AddVideo(),
+        Classwork.id: (context) => Classwork(),
+        AddClassWork.id: (context) => AddClassWork(),
 
         ProfileSettings.id: (context) => ProfileSettings(),
 

@@ -10,8 +10,6 @@ import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/add-group.dart';
 import 'package:cms/screens/add-image.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -49,7 +47,7 @@ class _VideoResourcesState extends State<VideoResources> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                CustomNavigation((value) {
+                CustomNavigation("Videos",(value) {
                   _globalKey.currentState?.openDrawer();
                 }),
                 StreamBuilder<QuerySnapshot>(

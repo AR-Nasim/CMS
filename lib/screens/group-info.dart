@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cms/components/navigation.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/add-class-work.dart';
+import 'package:cms/screens/classwork.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class GroupInfo extends StatelessWidget {
           color: Color(0xFF13192F),
           child: Column(
             children: [
-              CustomNavigation((value){
+              CustomNavigation("Group Info",(value){
 
               }),
               Container(
@@ -109,13 +111,15 @@ class GroupInfo extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: ReusableCard('Class Work'),
+                        child: ReusableCard('Class Work',(value){
+                          Navigator.pushNamed(context, Classwork.id);
+                        }),
                       ),
                     ),
                     Expanded(child:
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child: ReusableCard('Resources'),
+                      child: ReusableCard('Resources',(){}),
                     ),
                     ),
                   ],
@@ -127,13 +131,13 @@ class GroupInfo extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: ReusableCard('Reminder'),
+                        child: ReusableCard('Reminder',(){}),
                       ),
                     ),
                     Expanded(child:
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child:ReusableCard('Quiz'),
+                      child:ReusableCard('Quiz',(){}),
                     ),
                     ),
                   ],
@@ -148,8 +152,9 @@ class GroupInfo extends StatelessWidget {
 }
 
 class ReusableCard extends StatelessWidget {
-  const ReusableCard(this.text);
+  const ReusableCard(this.text,this.onChangeCallback);
   final String text;
+  final Function onChangeCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +162,17 @@ class ReusableCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 28.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
+          GestureDetector(
+            onTap:(){
+              onChangeCallback(true);
+            },
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+              ),
             ),
           ),
         ],

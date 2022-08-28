@@ -34,7 +34,7 @@ class _JoinGroupState extends State<JoinGroup> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                CustomNavigation((value){
+                CustomNavigation("Join Groups",(value){
                   _globalKey.currentState?.openDrawer();
                 }),
                 Container(

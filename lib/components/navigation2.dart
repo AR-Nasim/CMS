@@ -72,7 +72,7 @@ class CustomNavigation2 extends StatelessWidget {
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       child: Text('Group Info'),
-                      onTap: onChangeCallback(),
+                      onTap:() => onChangeCallback
                     ),
                     PopupMenuItem(
                       child: Text('Classroom Code'),

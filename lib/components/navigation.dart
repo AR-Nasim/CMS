@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class CustomNavigation extends StatelessWidget {
-  const CustomNavigation(this.onChangedCallback(value));
+  const CustomNavigation(this.title,this.onChangedCallback(value));
   final Function onChangedCallback;
+  final title;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,8 @@ class CustomNavigation extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10.0),
             child:  Padding(
               padding: EdgeInsets.all(7.0),
-              child: Text('CMS',
-              style: TextStyle(fontSize: 26.0,color: Colors.white, fontWeight: FontWeight.bold),),
+              child: Text(title,
+              style: TextStyle(fontSize: 26.0,color: Colors.white, fontWeight: FontWeight.w500),),
             )
           ),
           Expanded(

@@ -28,7 +28,7 @@ class _ResourcesState extends State<Resources> {
           color: Color(0xFF13192F),
           child: Column(
             children: [
-              CustomNavigation((value){
+              CustomNavigation("Upload Images",(value){
                 _globalKey.currentState?.openDrawer();
               }),
               Container(

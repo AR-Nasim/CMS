@@ -45,7 +45,7 @@ class _ImageResourcesState extends State<ImageResources> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                CustomNavigation((value) {
+                CustomNavigation("Image Resources",(value) {
                   _globalKey.currentState?.openDrawer();
                 }),
                 StreamBuilder<QuerySnapshot>(

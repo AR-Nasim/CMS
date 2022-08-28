@@ -57,7 +57,7 @@ class _AddGroupState extends State<AddGroup> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomNavigation((value) {
+                CustomNavigation("Add Groups",(value) {
                   _globalKey.currentState?.openDrawer();
                 }),
                 Container(

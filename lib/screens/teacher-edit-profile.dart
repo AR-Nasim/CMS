@@ -85,7 +85,6 @@ class _TeacherEditProfileState extends State<TeacherEditProfile> {
     await FirebaseFirestore.instance.collection('teacherProfile').where(
         'email', isEqualTo: user?.email).get().then((value) {
       final data = value.docs[0];
-      print(data['bio']);
       setState(() {
         _dropDownValue = data['dept'];
         _position = data['position'];
