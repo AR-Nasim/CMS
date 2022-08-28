@@ -41,7 +41,7 @@ class _SubGroupsState extends State<SubGroups> {
             Navigator.pushNamed(context, AddGroup.id);
           },
           label: Text(
-            "Add Groups",
+            "Add Sub-Groups",
             textAlign: TextAlign.center,
           ),
           backgroundColor: Color(0xFF13192F),

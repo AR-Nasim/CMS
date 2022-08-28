@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/dropdown-field.dart';
@@ -27,10 +28,15 @@ class _AddGroupState extends State<AddGroup> {
     'Select Department',
     'CSE',
     'EEE',
-    'BBA',
+    'Civil Engineering',
+    'Business Administration',
     'LAW',
-    'CE',
-    'ENG'
+    'English',
+    'Architecture',
+    'Islamic Study',
+    'Public Health',
+    'Tourism and Hospitality Management',
+    'Bangla'
   ];
   String _deptValue = 'Select Department';
   List<String> sectionName = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
@@ -49,8 +55,9 @@ class _AddGroupState extends State<AddGroup> {
         body: ColorfulSafeArea(
             color: Color(0xFF13192F),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomNavigation((value){
+                CustomNavigation((value) {
                   _globalKey.currentState?.openDrawer();
                 }),
                 Container(
@@ -71,6 +78,16 @@ class _AddGroupState extends State<AddGroup> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left: 32.0,bottom: 10.0),
+                    child: Text(
+                  "Create Your Customize Groups",
+                  style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF13192F)),
+                  textAlign: TextAlign.left,
+                )),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
@@ -96,21 +113,29 @@ class _AddGroupState extends State<AddGroup> {
                       SizedBox(
                         height: 15.0,
                       ),
-                      MultiDropdownField('Select Sections',_sectionValue, sectionName, (values) {
-                        selectSectionList = values;
-                        _sectionValue = '';
-                        selectSectionList.forEach((element) {
-                          setState(() {
-                            _sectionValue = _sectionValue + ' ' + element.toString();
+                      MultiDropdownField(
+                        'Select Sections',
+                        _sectionValue,
+                        sectionName,
+                        (values) {
+                          selectSectionList = values;
+                          _sectionValue = '';
+                          selectSectionList.forEach((element) {
+                            setState(() {
+                              _sectionValue =
+                                  _sectionValue + ' ' + element.toString();
+                            });
                           });
-                        });
-                        if(_sectionValue==''){
-                          setState(() {
-                            _sectionValue = 'Select Section';
-                          });
-                        }
-                      },),
-                      SizedBox(height: 15.0,),
+                          if (_sectionValue == '') {
+                            setState(() {
+                              _sectionValue = 'Select Section';
+                            });
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 15.0,
+                      ),
                       Material(
                         color: Color(0xFF13192F),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -134,15 +159,14 @@ class _AddGroupState extends State<AddGroup> {
                             });
                             final sections = _sectionValue.split(' ');
                             sections.forEach((element) {
-                              if(element!='') {
+                              if (element != '') {
                                 String classCode = getClassCode();
                                 _firestore.collection('subGroups').add({
                                   'groupName': courseCode.toUpperCase(),
                                   'groupBatch': batchNo,
                                   'groupSection': element,
-                                  'email':
-                                  Provider
-                                      .of<TaskData>(context, listen: false)
+                                  'email': Provider.of<TaskData>(context,
+                                          listen: false)
                                       .userEmail,
                                   'classCode': classCode
                                 });
@@ -159,7 +183,7 @@ class _AddGroupState extends State<AddGroup> {
             )));
   }
 
-  String getClassCode(){
+  String getClassCode() {
     String uppercaseLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String lowercaseLetter = "abcdefghijklmnopqrstuvwxyz";
     String digits = "0123456789";
@@ -167,7 +191,7 @@ class _AddGroupState extends State<AddGroup> {
     String char = '';
     String str = '';
     char += "$uppercaseLetter$lowercaseLetter$digits";
-    str += List.generate(8, (index){
+    str += List.generate(8, (index) {
       final indexRandom = Random().nextInt(char.length);
       return char[indexRandom];
     }).join('');

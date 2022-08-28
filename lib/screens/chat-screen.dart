@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:cms/components/navigation2.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 final messageTextController = TextEditingController();
 final _firestore = FirebaseFirestore.instance;
@@ -30,66 +32,13 @@ class _ChatScreenState extends State<ChatScreen> {
         Provider.of<TaskData>(context, listen: false).courseSection;
     String classCode = Provider.of<TaskData>(context, listen: false).classCode;
     return Scaffold(
-      appBar: AppBar(
-          leading: null,
-          title: Text("$code-$batch($section)"),
-          backgroundColor: Color(0xFF13192F),
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Text('Classroom Code'),
-                  onTap: () {
-                    Future.delayed(
-                        const Duration(seconds: 0),
-                        () => showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text('This Classroom Code'),
-                                content: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 0.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        classCode,
-                                        style: TextStyle(
-                                            color: Color(0xFF13192F),
-                                            fontSize: 18.0),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.copy,
-                                          color: Color(0xFF13192F),
-                                          size: 18.0,
-                                        ),
-                                        onPressed: () {
-                                          Clipboard.setData(ClipboardData(text: classCode));
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: Text('Ok',style: TextStyle(color: Color(0xFF13192F)),),
-                                    onPressed: () => Navigator.pop(context),
-                                  )
-                                ],
-                              ),
-                            ));
-                  },
-                )
-              ],
-            )
-          ]),
-      body: SafeArea(
+      body: ColorfulSafeArea(
+        color: Color(0xFF13192F),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            CustomNavigation2(batch, section, classCode, code),
             MessagesStream(),
             Container(
               decoration: BoxDecoration(

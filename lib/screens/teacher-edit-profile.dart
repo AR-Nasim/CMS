@@ -66,8 +66,9 @@ class _TeacherEditProfileState extends State<TeacherEditProfile> {
     'Adjunct Faculty'
   ];
 
-  String _dropDownValue = 'CSE';
-  List<String> items = ['CSE', 'EEE', 'BBA', 'LAW', 'CE'];
+  String _dropDownValue = 'Select Your Department';
+  List<String> items = ['Select Your Department','CSE', 'EEE','Civil Engineering','Business Administration', 'LAW', 'English', 'Architecture', 'Islamic Study',
+    'Public Health','Tourism and Hospitality Management','Bangla'];
   late String mobile = '';
   late String bio = '';
 
@@ -105,223 +106,220 @@ class _TeacherEditProfileState extends State<TeacherEditProfile> {
         .of(context)
         .size
         .width;
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Teacher Profile',
-          ),
-          backgroundColor: Color(0xFF13192F),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Edit Profile',
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _firestore.collection('teacherProfile').doc(Provider
+        backgroundColor: Color(0xFF13192F),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _firestore.collection('teacherProfile').doc(Provider
+              .of<TaskData>(context, listen: false)
+              .userEmail).update({
+            'position': _position,
+            'dept': _dropDownValue,
+            'bio': bio,
+            'mobile': mobile,
+            'email': Provider
                 .of<TaskData>(context, listen: false)
-                .userEmail).update({
-              'position': _position,
-              'dept': _dropDownValue,
-              'bio': bio,
-              'mobile': mobile,
-              'email': Provider
-                  .of<TaskData>(context, listen: false)
-                  .userEmail
-            });
-            uploadFile();
-            Navigator.pushNamed(context, Groups.id);
-          },
-          backgroundColor: Color(0xFF13192F),
-          child: Icon(Icons.arrow_forward_sharp),
-        ),
-        resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 40.0,
-              ),
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 100.0,
-                    backgroundColor: Color(0xFF13192F),
-                    child: CircleAvatar(
-                      radius: 95.0,
-                      backgroundImage: Provider
-                          .of<TaskData>(context)
-                          .userPhoto ==
-                          ''
-                          ? NetworkImage(
-                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
-                          : NetworkImage(Provider
-                          .of<TaskData>(context)
-                          .userPhoto)
-                      as ImageProvider, // : FileImage() as ImageProvider,
-                      backgroundColor: Colors.white,
-                    ),
+                .userEmail
+          });
+          uploadFile();
+          Navigator.pushNamed(context, Groups.id);
+        },
+        backgroundColor: Color(0xFF13192F),
+        child: Icon(Icons.arrow_forward_sharp),
+      ),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 40.0,
+            ),
+            Stack(
+              children: [
+                CircleAvatar(
+                  radius: 100.0,
+                  backgroundColor: Color(0xFF13192F),
+                  child: CircleAvatar(
+                    radius: 95.0,
+                    backgroundImage: Provider
+                        .of<TaskData>(context)
+                        .userPhoto ==
+                        ''
+                        ? NetworkImage(
+                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+                        : NetworkImage(Provider
+                        .of<TaskData>(context)
+                        .userPhoto)
+                    as ImageProvider, // : FileImage() as ImageProvider,
+                    backgroundColor: Colors.white,
                   ),
-                  Positioned(
-                    top: 150,
-                    left: 150,
-                    child: GestureDetector(
-                      onTap: () {
-                        Alert(
-                          context: context,
-                          content: Column(
-                            children: [
-                              Material(
-                                elevation: 4,
-                                child: DialogButton(
+                ),
+                Positioned(
+                  top: 150,
+                  left: 150,
+                  child: GestureDetector(
+                    onTap: () {
+                      Alert(
+                        context: context,
+                        content: Column(
+                          children: [
+                            Material(
+                              elevation: 4,
+                              child: DialogButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: const [
+                                    Icon(Icons.camera),
+                                    Text(
+                                      "Camera",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  takePhoto(ImageSource.camera);
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Material(
+                              elevation: 4,
+                              child: DialogButton(
                                   child: Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                     children: const [
-                                      Icon(Icons.camera),
+                                      Icon(Icons.image),
                                       Text(
-                                        "Camera",
+                                        "Gallery",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 20),
+                                            color: Colors.black,
+                                            fontSize: 20),
                                       ),
                                     ],
                                   ),
-                                  onPressed: () {
-                                    takePhoto(ImageSource.camera);
-                                    Navigator.pop(context);
-                                  },
                                   color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Material(
-                                elevation: 4,
-                                child: DialogButton(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: const [
-                                        Icon(Icons.image),
-                                        Text(
-                                          "Gallery",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20),
-                                        ),
-                                      ],
-                                    ),
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      takePhoto(ImageSource.gallery);
-                                      Navigator.pop(context);
-                                    }),
-                              ),
-                            ],
-                          ),
-                          buttons: [],
-                        ).show();
-                      },
-                      child: const CircleAvatar(
-                        backgroundColor: Color(0xFF13192F),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
+                                  onPressed: () {
+                                    takePhoto(ImageSource.gallery);
+                                    Navigator.pop(context);
+                                  }),
+                            ),
+                          ],
                         ),
+                        buttons: [],
+                      ).show();
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: Color(0xFF13192F),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
                       ),
                     ),
                   ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10.0),
+            Text(
+              Provider
+                  .of<TaskData>(context)
+                  .userName,
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  MultiDropdownField(
+                      _position, _position, positions, (value) {
+                    setState(() {
+                      selectPositions = value;
+                      _position = '';
+                      selectPositions.forEach((element) {
+                        setState(() {
+                          if (_position != '') {
+                            _position = _position + ', ' + element.toString();
+                          } else {
+                            _position = element.toString();
+                          }
+                        });
+                      });
+                      if (_position == '') {
+                        setState(() {
+                          _position = ' Select Your Position';
+                        });
+                      }
+                    });
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  DropdownField(_dropDownValue, items, (value) {
+                    setState(() {
+                      _dropDownValue = value;
+                    });
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InputField2(bio, false, (value) {
+                    setState(() {
+                      bio = value;
+                    });
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InputField2(mobile, false, (value) {
+                    setState(() {
+                      mobile = value;
+                    });
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  // GestureDetector(
+                  //   onTap: selectFile,
+                  //   child: Container(
+                  //     width: screenWidth,
+                  //     padding: EdgeInsets.symmetric(
+                  //         vertical: 12.0, horizontal: 20.0),
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(
+                  //           color: Color(0xFF13192F), width: 2.0),
+                  //       color: Color(0xFF13192F),
+                  //       borderRadius: BorderRadius.circular(15.0),
+                  //     ),
+                  //     child: Text(
+                  //       fileName,
+                  //       style: TextStyle(
+                  //           color: Colors.white, fontSize: 16.0),
+                  //       overflow: TextOverflow.ellipsis,
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
-              SizedBox(height: 10.0),
-              Text(
-                Provider
-                    .of<TaskData>(context)
-                    .userName,
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Padding(
-                padding: EdgeInsets.all(30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    MultiDropdownField(
-                        _position, _position, positions, (value) {
-                      setState(() {
-                        selectPositions = value;
-                        _position = '';
-                        selectPositions.forEach((element) {
-                          setState(() {
-                            if (_position != '') {
-                              _position = _position + ', ' + element.toString();
-                            } else {
-                              _position = element.toString();
-                            }
-                          });
-                        });
-                        if (_position == '') {
-                          setState(() {
-                            _position = ' Select Your Position';
-                          });
-                        }
-                      });
-                    }),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    DropdownField(_dropDownValue, items, (value) {
-                      setState(() {
-                        _dropDownValue = value;
-                      });
-                    }),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    InputField2(bio, false, (value) {
-                      setState(() {
-                        bio = value;
-                      });
-                    }),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    InputField2(mobile, false, (value) {
-                      setState(() {
-                        mobile = value;
-                      });
-                    }),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    // GestureDetector(
-                    //   onTap: selectFile,
-                    //   child: Container(
-                    //     width: screenWidth,
-                    //     padding: EdgeInsets.symmetric(
-                    //         vertical: 12.0, horizontal: 20.0),
-                    //     decoration: BoxDecoration(
-                    //       border: Border.all(
-                    //           color: Color(0xFF13192F), width: 2.0),
-                    //       color: Color(0xFF13192F),
-                    //       borderRadius: BorderRadius.circular(15.0),
-                    //     ),
-                    //     child: Text(
-                    //       fileName,
-                    //       style: TextStyle(
-                    //           color: Colors.white, fontSize: 16.0),
-                    //       overflow: TextOverflow.ellipsis,
-                    //     ),
-                    //   ),
-                    // )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

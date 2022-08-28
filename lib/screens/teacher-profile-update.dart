@@ -63,8 +63,9 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
     'Adjunct Faculty'
   ];
 
-  String _dropDownValue = 'CSE';
-  List<String> items = ['CSE', 'EEE', 'BBA', 'LAW', 'CE'];
+  String _dropDownValue = 'Select Your Department';
+  List<String> items = ['Select Your Department','CSE', 'EEE','Civil Engineering','Business Administration', 'LAW', 'English', 'Architecture', 'Islamic Study',
+  'Public Health','Tourism and Hospitality Management','Bangla'];
   late String mobile = '';
   late String bio = '';
 

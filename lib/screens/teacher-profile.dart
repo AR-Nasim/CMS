@@ -94,7 +94,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                                     .userPhoto ==
                                                 ''
                                             ? NetworkImage(
-                                                'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-369-456321-512.png')
+                                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
                                             : NetworkImage(Provider.of<
                                             TaskData>(context)
                                             .userPhoto),

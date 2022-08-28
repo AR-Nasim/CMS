@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class DropdownField extends StatelessWidget {
@@ -18,23 +19,31 @@ class DropdownField extends StatelessWidget {
       child: Padding(
         padding:
         EdgeInsets.symmetric(horizontal: 15.0),
-        child: DropdownButton(
-          value: dropdownValue,
-          items: items.map((String items) {
-            return DropdownMenuItem(
-              value: items,
-              child: Text(
-                items,
-                style: TextStyle(color: Colors.black),
-              ),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            onChangedCallback(newValue);
-          },
-          underline: Container(),
-          isExpanded: true,
-        ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              dropdownMaxHeight: 200,
+              dropdownElevation: 8,
+              scrollbarRadius: const Radius.circular(40),
+              scrollbarThickness: 6,
+              scrollbarAlwaysShow: true,
+              offset: const Offset(-20, 0),
+              value: dropdownValue,
+              items: items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(
+                    items,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                onChangedCallback(newValue);
+              },
+              underline: Container(),
+              isExpanded: true,
+            ),
+          ),
       ),
     );
   }

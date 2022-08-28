@@ -30,6 +30,7 @@ class CustomNavigation extends StatelessWidget {
           SizedBox(
             width: 10.0,
           ),
+
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
             child:  Padding(
