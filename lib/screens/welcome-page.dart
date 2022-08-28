@@ -33,7 +33,7 @@ class WelcomePage extends StatelessWidget {
                     Navigator.pushNamed(context, LogRegPage.id);
                   },
                   child: CircleAvatar(
-                    radius: 100.0,
+                    radius: 90.0,
                     backgroundImage: AssetImage('images/CMS-Logo.png'),
                   ),
                 ),
