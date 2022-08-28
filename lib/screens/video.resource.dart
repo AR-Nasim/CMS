@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 import 'add-video.dart';
 
@@ -27,6 +28,7 @@ class VideoResources extends StatefulWidget {
 class _VideoResourcesState extends State<VideoResources> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   List<String> videoRef = [];
+  late VideoPlayerController _videoPlayerController;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class _VideoResourcesState extends State<VideoResources> {
                 }),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('videoURLs').where('email', isEqualTo: email).where('courseCode', isEqualTo:code).where('courseBatch', isEqualTo: batch)
+                      .collection('videoURLs').where('courseCode', isEqualTo:code).where('courseBatch', isEqualTo: batch)
                       .snapshots(),
                   builder: (context, snapshot) {
                     return !snapshot.hasData
@@ -73,15 +75,17 @@ class _VideoResourcesState extends State<VideoResources> {
                                 crossAxisCount: 3),
                             itemBuilder: (context, index) {
                               final data = snapshot.data!.docs[index];
+                              _videoPlayerController = VideoPlayerController.network(data['url'])..initialize().then((value) {
+                                    _videoPlayerController.play();
+                              });
                               return Container(
                                 margin: EdgeInsets.all(3.0),
-                                child: FadeInImage.assetNetwork(
-                                    fadeInDuration: Duration(seconds: 2),
-                                    fadeInCurve: Curves.bounceIn,
-                                    fit: BoxFit.cover,
-                                    image: data['url'],
-                                    placeholder: 'images/loading.gif'
-                                ),
+                                child: AspectRatio(
+                                  aspectRatio: _videoPlayerController.value.aspectRatio,
+                                  child: VideoPlayer(
+                                    _videoPlayerController
+                                  ),
+                                )
                               );
                             }));
                   },

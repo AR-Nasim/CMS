@@ -1,3 +1,4 @@
+import 'package:cms/screens/group-info.dart';
 import 'package:cms/screens/onboarding-screen.dart';
 import 'package:cms/screens/profile-settings.dart';
 import 'package:cms/screens/add-group.dart';
@@ -34,6 +35,7 @@ import 'student-screens/stundet-edit-profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+
 class Routes extends StatefulWidget {
   const Routes({Key? key}) : super(key: key);
   @override
@@ -49,37 +51,35 @@ class _RoutesState extends State<Routes> {
     getStart();
   }
   void getStart()async{
+
+    final _auth = FirebaseAuth.instance;
+    final user = _auth.currentUser;
+    if(user!=null){
+      List<String> splitted = user.displayName!.split(' ');
+      if(splitted[splitted.length-1] != "student"){
+        currentPage = Groups.id;
+      }
+      else{
+        currentPage = StudentGroupScreen.id;
+      }
+      await Future.delayed(Duration(milliseconds: 1000),(){
+        Provider.of<TaskData>(context,listen: false).getUser();
+      });
+    }
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
 
-    if (_seen) {
-      final _auth = FirebaseAuth.instance;
-      final user = _auth.currentUser;
-      if(user!=null){
-        List<String> splitted = user.displayName!.split(' ');
-        if(splitted[splitted.length-1] != "student"){
-          currentPage = Groups.id;
-        }
-        else{
-          currentPage = StudentGroupScreen.id;
-        }
-        await Future.delayed(Duration(milliseconds: 1000),(){
-          Provider.of<TaskData>(context,listen: false).getUser();
-        });
-      }
-      else{
-        currentPage = WelcomePage.id;
-      }
-    } else {
-      await prefs.setBool('seenat', true);
+    if (_seen == false){
+      await prefs.setBool('seen', true);
       currentPage = OnBoardingScreen.id;
     }
+
   }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: currentPage,
-      home: OnBoardingScreen(),
       routes: {
         WelcomePage.id: (context) => WelcomePage(),
         OnBoardingScreen.id: (context) => OnBoardingScreen(),
@@ -95,6 +95,7 @@ class _RoutesState extends State<Routes> {
         SubGroups.id: (context) => SubGroups(),
         ChatScreen.id: (context) => ChatScreen(),
         Groups.id: (context) => Groups(),
+        GroupInfo.id:(context) => GroupInfo(),
         Resources.id: (context) => Resources(),
         ImageResources.id: (context) => ImageResources(),
         AddImage.id:(context) => AddImage(),

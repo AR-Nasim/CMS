@@ -303,7 +303,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
       final ref = FirebaseStorage.instance.ref(destination);
       ref.putFile(file!).whenComplete(()async{
         await ref.getDownloadURL().then((value){
-          routineRef.add({'url': fileName,'email':email, 'fileName': fileName});
+          routineRef.add({'url': value,'email':email, 'fileName': fileName});
         }
         );
       });

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cms/components/navigation2.dart';
 import 'package:cms/components/task-data.dart';
+import 'package:cms/screens/group-info.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,8 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
     String name = Provider.of<TaskData>(context, listen: false).userName;
     String code = Provider.of<TaskData>(context, listen: false).courseCode;
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
-    String section =
-        Provider.of<TaskData>(context, listen: false).courseSection;
+    String section = Provider.of<TaskData>(context, listen: false).courseSection;
     String classCode = Provider.of<TaskData>(context, listen: false).classCode;
     return Scaffold(
       body: ColorfulSafeArea(
@@ -38,14 +38,13 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            CustomNavigation2(batch, section, classCode, code),
+            CustomNavigation2(batch, section, classCode, code,(){
+              print('object');
+              Navigator.pushNamed(context, GroupInfo.id);
+            },),
             MessagesStream(),
             Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Color(0xFF13192F), width: 2.0),
-                ),
-              ),
+              padding: EdgeInsets.only(bottom: 7.0,left: 5.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -57,14 +56,25 @@ class _ChatScreenState extends State<ChatScreen> {
                         messageText = value;
                       },
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        hintText: 'Type your message here...',
-                        border: InputBorder.none,
+                        hintText: 'Type your message here..',
+                        contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF13192F), width: 1.5),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF13192F), width: 2.5),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
                       ),
                     ),
                   ),
                   FlatButton(
+                    minWidth: 40.0,
                     onPressed: () {
                       messageTextController.clear();
                       _firestore.collection('messages-$classCode').add({
@@ -75,13 +85,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         'messageTime': DateFormat.jm().format(DateTime.now()).toString(),
                       });
                     },
-                    child: Text(
-                      'Send',
-                      style: TextStyle(
-                        color: Color(0xFF13192F),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
+                    child: Icon(
+                      Icons.send,
+                      color: Color(0xFF13192F),
+                      size: 38.0,
                     ),
                   ),
                 ],

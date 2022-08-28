@@ -1,15 +1,17 @@
 import 'dart:ui';
+import 'package:cms/screens/group-info.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 
 class CustomNavigation2 extends StatelessWidget {
-  const CustomNavigation2(this.batch, this.section, this.code, this.name);
+  const CustomNavigation2(this.batch, this.section, this.code, this.name, this.onChangeCallback);
   final String batch;
   final String section;
   final String code;
   final String name;
+  final Function onChangeCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,10 @@ class CustomNavigation2 extends StatelessWidget {
                 PopupMenuButton(
                   icon: Icon(Icons.more_vert_outlined,color: Colors.white,),
                   itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text('Group Info'),
+                      onTap: onChangeCallback(),
+                    ),
                     PopupMenuItem(
                       child: Text('Classroom Code'),
                       onTap: () {
