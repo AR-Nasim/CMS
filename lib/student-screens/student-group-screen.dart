@@ -167,6 +167,7 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                                               ),
                                               GestureDetector(
                                                 onTap: (){
+                                                  print(data['teacher'] + "teach");
                                                   Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
                                                   Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode'],data['teacher']);
                                                   Navigator.pushNamed(context, ChatScreen.id);

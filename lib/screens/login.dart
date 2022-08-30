@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../components/input-field.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'forgot-password.dart';
 import 'login-varification.dart';
 
 class Login extends StatefulWidget {
@@ -111,6 +112,19 @@ class _LoginState extends State<Login> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, ForgotPassword.id);
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Color(0xFF13192F), // Text Color
+                    ),
+                    child: const Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
                   ),
                   Row(

@@ -10,8 +10,6 @@ import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/add-group.dart';
 import 'package:cms/screens/add-image.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +43,7 @@ class _ImageResourcesState extends State<ImageResources> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                CustomNavigation("Image Resources",(value) {
+                CustomNavigation("Images",(value) {
                   _globalKey.currentState?.openDrawer();
                 }),
                 StreamBuilder<QuerySnapshot>(

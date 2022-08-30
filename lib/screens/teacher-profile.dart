@@ -274,7 +274,6 @@ class _TeacherProfileState extends State<TeacherProfile> {
     if(url.contains('.mp4')){
       await GallerySaver.saveVideo(path,toDcim: true);
     }
-    print('object');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Completed"),));
   }
 

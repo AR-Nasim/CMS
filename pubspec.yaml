@@ -28,6 +28,9 @@ dependencies:
   firebase_auth: ^3.3.10
   firebase_storage: ^8.0.3
   cloud_firestore: ^3.4.4
+  email_validator: ^2.1.16
+  password_strength: ^0.2.0
+  url_launcher: ^6.1.5
   provider: ^6.0.2
   rflutter_alert: ^2.0.4
   image_picker: ^0.8.4+11

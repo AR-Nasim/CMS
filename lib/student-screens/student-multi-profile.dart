@@ -38,7 +38,7 @@ class _StudentMultiProfileState extends State<StudentMultiProfile> {
             color: Color(0xFF13192F),
             child: Column(
               children: [
-                CustomNavigation("Groups",(value){
+                CustomNavigation("Profile",(value){
                   _globalKey.currentState?.openDrawer();
                 }),
                 Container(

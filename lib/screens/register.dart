@@ -3,6 +3,7 @@ import 'package:cms/components/input-field.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/login.dart';
 import 'package:cms/screens/varification.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,8 @@ class _RegisterState extends State<Register> {
   late String password2;
   late String errorMessage = '';
   late bool spinner = false;
+  static String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp regex = new RegExp(pattern);
   String setter() {
     return name;
   }
@@ -104,7 +107,18 @@ class _RegisterState extends State<Register> {
                           elevation: 5.0,
                           child: MaterialButton(
                             onPressed: () async {
-                              if (password != password2) {
+                              if(!EmailValidator.validate(email)){
+                                setState(() {
+                                  errorMessage = "Email Not Valid";
+                                });
+                              }
+                              else if(!regex.hasMatch(password)){
+                                print('1234');
+                                setState(() {
+                                  errorMessage = "Your password is weak";
+                                });
+                              }
+                              else if (password != password2) {
                                 setState(() {
                                   errorMessage = "Password didn't match";
                                 });

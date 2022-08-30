@@ -55,7 +55,7 @@ class _TeacherProfile2State extends State<TeacherProfile2> {
                       final data = docs[i];
                       return Column(
                         children: [
-                          CustomNavigation("Profile",(value) {
+                          CustomNavigation("Teacher Profile",(value) {
                             _globalKey.currentState?.openDrawer();
                           }),
                           Container(

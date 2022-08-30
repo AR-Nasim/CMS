@@ -1,18 +1,44 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cms/components/navigation.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/add-class-work.dart';
 import 'package:cms/screens/classwork.dart';
 import 'package:cms/screens/resource.dart';
+import 'package:cms/student-screens/quiz.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../student-screens/student-resources.dart';
 
-class GroupInfo extends StatelessWidget {
+class GroupInfo extends StatefulWidget {
   static String id="group-info";
+
+  @override
+  State<GroupInfo> createState() => _GroupInfoState();
+}
+
+class _GroupInfoState extends State<GroupInfo> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+  int participate = 0;
+
+  getData()async{
+    await FirebaseFirestore.instance.collection('studentGroups').where(
+        'classCode', isEqualTo: Provider.of<TaskData>(context, listen: false).courseCode).get().then((value) {
+      setState(() {
+        participate = participate + 1;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +47,7 @@ class GroupInfo extends StatelessWidget {
     String code = Provider.of<TaskData>(context, listen: false).courseCode;
     String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
     String section = Provider.of<TaskData>(context, listen: false).courseSection;
+
     return MaterialApp(
       home: Scaffold(
         body: ColorfulSafeArea(
@@ -66,7 +93,7 @@ class GroupInfo extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '40 Participants',
+                          "$participate Participants",
                           style: TextStyle(
                             fontSize: 20.0,
                             color: Color(0xFF13192F),
@@ -142,7 +169,9 @@ class GroupInfo extends StatelessWidget {
                     Expanded(child:
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child:ReusableCard('Quiz',(){}),
+                      child:ReusableCard('Quiz',(value){
+                        Navigator.pushNamed(context, Quiz.id);
+                      }),
                     ),
                     ),
                   ],

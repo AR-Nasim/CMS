@@ -3,11 +3,13 @@ import 'package:cms/components/error-message.dart';
 import 'package:cms/components/input-field.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/student-screens/student-login.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
 import 'student-verification.dart';
@@ -28,6 +30,8 @@ class _StudentRegisterState extends State<StudentRegister> {
   late String password2;
   late String errorMessage = '';
   late bool spinner = false;
+  static String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp regex = new RegExp(pattern);
   String setter() {
     return name;
   }
@@ -105,7 +109,18 @@ class _StudentRegisterState extends State<StudentRegister> {
                   elevation: 5.0,
                   child: MaterialButton(
                     onPressed: () async {
-                      if (password != password2) {
+                      if(!EmailValidator.validate(email)){
+                        setState(() {
+                          errorMessage = "Email Not Valid";
+                        });
+                      }
+                      else if(!regex.hasMatch(password)){
+                        print('1234');
+                        setState(() {
+                          errorMessage = "Your password is weak";
+                        });
+                      }
+                      else if (password != password2) {
                         setState(() {
                           errorMessage = "Password didn't match";
                         });

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../components/input-field.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../screens/forgot-password.dart';
 import 'student-verification.dart';
 
 class StudentLogin extends StatefulWidget {
@@ -111,6 +112,19 @@ class _StudentLoginState extends State<StudentLogin> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ForgotPassword.id);
+              },
+              style: TextButton.styleFrom(
+                primary: Color(0xFF13192F), // Text Color
+              ),
+              child: const Text(
+                'Forgot password?',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 16.0),
               ),
             ),
             Row(

@@ -1,5 +1,6 @@
 import 'package:cms/screens/add-class-work.dart';
 import 'package:cms/screens/classwork.dart';
+import 'package:cms/screens/forgot-password.dart';
 import 'package:cms/screens/group-info.dart';
 import 'package:cms/screens/onboarding-screen.dart';
 import 'package:cms/screens/profile-settings.dart';
@@ -13,6 +14,7 @@ import 'package:cms/screens/teacher-profile-update.dart';
 import 'package:cms/screens/teacher-profile.dart';
 import 'package:cms/screens/video.resource.dart';
 import 'package:cms/screens/welcome-page.dart';
+import 'package:cms/student-screens/quiz.dart';
 import 'package:cms/student-screens/student-group-screen.dart';
 import 'package:cms/student-screens/student-image-resources.dart';
 import 'package:cms/student-screens/student-multi-profile.dart';
@@ -93,6 +95,7 @@ class _RoutesState extends State<Routes> {
         OnBoardingScreen.id: (context) => OnBoardingScreen(),
         LogRegPage.id: (context) => LogRegPage(),
         Login.id: (context) => Login(),
+        ForgotPassword.id: (context) => ForgotPassword(),
         Register.id: (context) => const Register(),
         Varification.id: (context) => Varification(),
         LoginVarification.id: (context) => LoginVarification(),
@@ -128,6 +131,7 @@ class _RoutesState extends State<Routes> {
         StudentVideoResources.id: (context) => StudentVideoResources(),
         TeacherProfile2.id:(context) => TeacherProfile2(),
         JoinGroup.id: (context) => JoinGroup(),
+        Quiz.id:(context) => Quiz(),
 
       },
     );

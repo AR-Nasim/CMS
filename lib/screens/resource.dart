@@ -184,31 +184,36 @@ class _ResourcesState extends State<Resources> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0, bottom: 45.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Docs',
-                                style: TextStyle(
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, ImageResources.id);
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Pdfs',
+                                  style: TextStyle(
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          margin: EdgeInsets.all(15.0),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 3,
-                                blurRadius: 3,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
+                              ],
+                            ),
+                            margin: EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                           ),
                         ),
                       ),
