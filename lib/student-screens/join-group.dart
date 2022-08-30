@@ -92,6 +92,7 @@ class _JoinGroupState extends State<JoinGroup> {
                                       'groupBatch': data['groupBatch'],
                                       'groupSection': data['groupSection'],
                                       'classCode': data['classCode'],
+                                      'teacher': data['email'],
                                       'email':
                                       Provider.of<TaskData>(context, listen: false)
                                           .userEmail

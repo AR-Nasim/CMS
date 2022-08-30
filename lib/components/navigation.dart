@@ -37,25 +37,9 @@ class CustomNavigation extends StatelessWidget {
             child:  Padding(
               padding: EdgeInsets.all(7.0),
               child: Text(title,
-              style: TextStyle(fontSize: 26.0,color: Colors.white, fontWeight: FontWeight.w500),),
+              style: TextStyle(fontSize: 24.0,color: Colors.white, fontWeight: FontWeight.w500),),
             )
           ),
-          Expanded(
-            child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );

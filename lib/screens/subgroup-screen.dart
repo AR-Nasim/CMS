@@ -178,7 +178,7 @@ class _SubGroupsState extends State<SubGroups> {
                                               ),
                                               GestureDetector(
                                                 onTap: (){
-                                                  Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
+                                                  Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode'],data['email']);
                                                   Navigator.pushNamed(context, ChatScreen.id);
                                                 },
                                                 child: Container(

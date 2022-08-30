@@ -117,6 +117,8 @@ class _TeacherEditProfileState extends State<TeacherEditProfile> {
           _firestore.collection('teacherProfile').doc(Provider
               .of<TaskData>(context, listen: false)
               .userEmail).update({
+            'name': user?.displayName,
+            'photoURL': user?.photoURL,
             'position': _position,
             'dept': _dropDownValue,
             'bio': bio,

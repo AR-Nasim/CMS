@@ -16,14 +16,14 @@ import 'package:provider/provider.dart';
 
 import '../components/custom-drawer.dart';
 
-class TeacherProfile extends StatefulWidget {
-  static String id = "teacher-profile";
+class TeacherProfile2 extends StatefulWidget {
+  static String id = "teacher-profile2";
 
   @override
-  State<TeacherProfile> createState() => _TeacherProfileState();
+  State<TeacherProfile2> createState() => _TeacherProfile2State();
 }
 
-class _TeacherProfileState extends State<TeacherProfile> {
+class _TeacherProfile2State extends State<TeacherProfile2> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   final _firestore = FirebaseFirestore.instance;
   double downloadProgress = 0.0;
@@ -38,7 +38,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
       body: ColorfulSafeArea(
         color: Color(0xFF13192F),
         child: StreamBuilder<QuerySnapshot>(
-            stream: _firestore.collection('teacherProfile').where('email', isEqualTo:Provider.of<TaskData>(context).userEmail).snapshots(),
+            stream: _firestore.collection('teacherProfile').where('email', isEqualTo:Provider.of<TaskData>(context).teacher).snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return LinearProgressIndicator();
@@ -64,7 +64,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                 Container(
                                   height: 28.0,
                                   margin:
-                                      EdgeInsets.only(right: 50.0, bottom: 1.0),
+                                  EdgeInsets.only(right: 50.0, bottom: 1.0),
                                   color: Color(0xFF13192F),
                                 ),
                                 Container(
@@ -89,15 +89,11 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                       backgroundColor: Color(0xFF13192F),
                                       radius: 78.0,
                                       child: CircleAvatar(
-                                        backgroundImage: Provider.of<TaskData>(
-                                                        context)
-                                                    .userPhoto ==
-                                                ''
+                                        backgroundImage: data['photoURL'] ==
+                                            ''
                                             ? NetworkImage(
-                                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
-                                            : NetworkImage(Provider.of<
-                                            TaskData>(context)
-                                            .userPhoto),
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+                                            : NetworkImage(data['photoURL']),
                                         radius: 75.0,
                                       ),
                                     ),
@@ -109,7 +105,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                           Column(
                             children: [
                               Text(
-                                Provider.of<TaskData>(context).userName,
+                                data['name'],
                                 style: TextStyle(
                                   fontSize: 27.0,
                                   color: Color(0xFF13192F),
@@ -192,7 +188,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                     child: Text(
                                       'Email: ' +
                                           Provider.of<TaskData>(context)
-                                              .userEmail,
+                                              .teacher,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Color(0xFF13192F),
@@ -219,37 +215,36 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                   ),
                                 )
                                     : ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.docs.length,
-                                  itemBuilder: (context, index) {
-                                    final data = snapshot.data!.docs[index];
-                                    final url = data['url'];
-                                    String email = Provider.of<TaskData>(
-                                        context).userEmail;
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder: (context, index) {
+                                      final data = snapshot.data!.docs[index];
+                                      final url = data['url'];
+                                      String email = Provider.of<TaskData>(
+                                          context,listen: false).teacher;
+                                      if (data['email'] == email) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                          child: GestureDetector(
+                                            onTap: (){
+                                              downloadFile(url, data['fileName']);
+                                            },
+                                            child: ListTile(
+                                              title: Text('Download Routine',style: TextStyle(fontSize: 18.0,color: Color(0xFF13192F)),),
 
-                                    if (data['email'] == email) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            downloadFile(url, data['fileName']);
-                                          },
-                                          child: ListTile(
-                                            title: Text('Download Routine',style: TextStyle(fontSize: 18.0,color: Color(0xFF13192F)),),
+                                              trailing: IconButton(
+                                                onPressed: (){
+                                                  downloadFile(url, data['fileName']);
+                                                },
+                                                icon: Icon(Icons.download_sharp),
+                                              ),
 
-                                            trailing: IconButton(
-                                              onPressed: (){
-                                                downloadFile(url, data['fileName']);
-                                              },
-                                              icon: Icon(Icons.download_sharp),
                                             ),
-
                                           ),
-                                        ),
-                                      );
-                                    }
-                                    else return Container();
-                                  });
+                                        );
+                                      }
+                                      else return Container();
+                                    });
                               })
                         ],
                       );

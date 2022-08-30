@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
+import '../student-screens/teacher-profile-2.dart';
 import 'group-screen.dart';
 
 final messageTextController = TextEditingController();
@@ -103,6 +104,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                             ),
                             PopupMenuItem(
+                              child: TextButton(
+                                child: Text('Teacher Profile',textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF13192F),fontSize: 18.0,fontWeight: FontWeight.normal),),
+                                onPressed: ()=> Navigator.pushNamed(context, TeacherProfile2.id),
+                              ),
+                            ),
+                            PopupMenuItem(
                               child: Padding(padding:EdgeInsets.only(left: 7.0),child: Text('Classroom Code')),
                               onTap: () {
                                 Future.delayed(
@@ -110,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         () => showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: Text('This Classroom Code'),
+                                        title: Text('This Classroom Code',textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF13192F),fontSize: 18.0,fontWeight: FontWeight.normal)),
                                         content: Padding(
                                           padding:
                                           EdgeInsets.symmetric(horizontal: 0.0),
@@ -187,22 +194,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    minWidth: 40.0,
-                    onPressed: () {
-                      messageTextController.clear();
-                      _firestore.collection('messages-$classCode').add({
-                        'text': messageText,
-                        'sender': email,
-                        'name': name,
-                        'messageSerial': DateFormat.Hms().format(DateTime.now()).toString(),
-                        'messageTime': DateFormat.jm().format(DateTime.now()).toString(),
-                      });
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Color(0xFF13192F),
-                      size: 38.0,
+                  Container(
+                    padding: EdgeInsets.only(right: 7.0,bottom: 7.0),
+                    child: IconButton(
+                      onPressed: () {
+                        messageTextController.clear();
+                        _firestore.collection('messages-$classCode').add({
+                          'text': messageText,
+                          'sender': email,
+                          'name': name,
+                          'messageSerial': DateTime.now().toString(),
+                          'messageTime': DateFormat.jm().format(DateTime.now()).toString(),
+                        });
+                      },
+                      icon: Icon(
+                        Icons.send,
+                        color: Color(0xFF13192F),
+                        size: 38.0,
+                      ),
                     ),
                   ),
                 ],

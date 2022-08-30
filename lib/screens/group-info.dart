@@ -4,9 +4,12 @@ import 'package:cms/components/navigation.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/add-class-work.dart';
 import 'package:cms/screens/classwork.dart';
+import 'package:cms/screens/resource.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../student-screens/student-resources.dart';
 
 class GroupInfo extends StatelessWidget {
   static String id="group-info";
@@ -119,7 +122,9 @@ class GroupInfo extends StatelessWidget {
                     Expanded(child:
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child: ReusableCard('Resources',(){}),
+                      child: ReusableCard('Resources',(value){
+                        Navigator.pushNamed(context, StudentResources.id);
+                      }),
                     ),
                     ),
                   ],
@@ -131,7 +136,7 @@ class GroupInfo extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: ReusableCard('Reminder',(){}),
+                        child: ReusableCard('Result',(){}),
                       ),
                     ),
                     Expanded(child:
@@ -158,15 +163,15 @@ class ReusableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap:(){
-              onChangeCallback(true);
-            },
-            child: Text(
+    return GestureDetector(
+      onTap: (){
+        onChangeCallback(true);
+      },
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
               text,
               style: TextStyle(
                 fontSize: 28.0,
@@ -174,13 +179,13 @@ class ReusableCard extends StatelessWidget {
                 color: Colors.white
               ),
             ),
-          ),
-        ],
-      ),
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Color(0xFF1D1E33),
-        borderRadius: BorderRadius.circular(20.0),
+          ],
+        ),
+        margin: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color(0xFF1D1E33),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
       ),
     );
   }

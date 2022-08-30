@@ -28,7 +28,7 @@ class _ResourcesState extends State<Resources> {
           color: Color(0xFF13192F),
           child: Column(
             children: [
-              CustomNavigation("Upload Images",(value){
+              CustomNavigation("Resources",(value){
                 _globalKey.currentState?.openDrawer();
               }),
               Container(
@@ -201,9 +201,9 @@ class _ResourcesState extends State<Resources> {
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 3,
+                                blurRadius: 3,
                                 offset: Offset(0, 2),
                               ),
                             ],
@@ -233,9 +233,9 @@ class _ResourcesState extends State<Resources> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 3,
+                              blurRadius: 3,
                               offset: Offset(0, 2),
                             ),
                           ],

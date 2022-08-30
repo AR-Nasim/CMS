@@ -90,7 +90,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Get Notified',
+                      'Add Classwork',
                       style: TextStyle(
                         color: Color(0xFF145DA0),
                         fontSize: 30.0,
@@ -104,7 +104,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 35.0, right: 35.0,top: 18.0),
                       child: Text(
-                        'You will get notification for any activity or alerts and also smart reminders notify you when its time for a scheduled close.',
+                        "You can add classwork for any sub groups as reminder and can delete the classwork when it's done.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF145DA0),

@@ -74,7 +74,7 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    final fileName = file != null ? file!.path.split('/').last : "Add file";
+    final fileName = file != null ? file!.path.split('/').last : "Add Class Routine";
     double screenWidth = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async => false,
@@ -88,6 +88,8 @@ class _TeacherProfileUpdateState extends State<TeacherProfileUpdate> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _firestore.collection('teacherProfile').doc(Provider.of<TaskData>(context, listen: false).userEmail).set({
+              'name': user?.displayName,
+              'photoURL':user?.photoURL,
               'position': _position,
               'dept': _dropDownValue,
               'bio': bio,

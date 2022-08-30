@@ -14,6 +14,11 @@ import 'package:cms/screens/teacher-profile.dart';
 import 'package:cms/screens/video.resource.dart';
 import 'package:cms/screens/welcome-page.dart';
 import 'package:cms/student-screens/student-group-screen.dart';
+import 'package:cms/student-screens/student-image-resources.dart';
+import 'package:cms/student-screens/student-multi-profile.dart';
+import 'package:cms/student-screens/student-resources.dart';
+import 'package:cms/student-screens/student-video-resources.dart';
+import 'package:cms/student-screens/teacher-profile-2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cms/components/task-data.dart';
@@ -81,6 +86,7 @@ class _RoutesState extends State<Routes> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: currentPage,
       routes: {
         WelcomePage.id: (context) => WelcomePage(),
@@ -115,7 +121,12 @@ class _RoutesState extends State<Routes> {
         StudentLoginVerification.id: (context) => StudentLoginVerification(),
         StudentProfileUpdate.id: (context) => StudentProfileUpdate(),
         StudentProfile.id: (context) => StudentProfile(),
+        StudentMultiProfile.id: (context) => StudentMultiProfile(),
         StudentEditProfile.id: (context) => StudentEditProfile(),
+        StudentResources.id:(context) => StudentResources(),
+        StudentImageResources.id: (context) => StudentImageResources(),
+        StudentVideoResources.id: (context) => StudentVideoResources(),
+        TeacherProfile2.id:(context) => TeacherProfile2(),
         JoinGroup.id: (context) => JoinGroup(),
 
       },

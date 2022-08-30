@@ -4,6 +4,8 @@ import 'package:cms/components/custom-drawer.dart';
 import 'package:cms/components/task-data.dart';
 import 'package:cms/screens/resource.dart';
 import 'package:cms/student-screens/join-group.dart';
+import 'package:cms/student-screens/student-multi-profile.dart';
+import 'package:cms/student-screens/student-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:provider/provider.dart';
@@ -93,17 +95,15 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    Navigator.pushNamed(context, Resources.id);
+                                    Navigator.pushNamed(context, StudentMultiProfile.id);
                                   },
-                                  child: Container(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 5.0),
-                                      child: Text(
-                                        "Resources",
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20.0,right: 20.0,bottom: 7.0),
+                                    child: Text(
+                                      "Profile",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
@@ -132,7 +132,6 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                             child: ListView.builder(
                                 itemCount: docs.length,
                                 itemBuilder: (context, i) {
-
                                     final data = docs[i];
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
@@ -169,7 +168,7 @@ class _StudentGroupScreenState extends State<StudentGroupScreen> {
                                               GestureDetector(
                                                 onTap: (){
                                                   Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
-                                                  Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode']);
+                                                  Provider.of<TaskData>(context,listen:false).getSubGroup(data['groupSection'],data['classCode'],data['teacher']);
                                                   Navigator.pushNamed(context, ChatScreen.id);
                                                 },
                                                 child: Container(
