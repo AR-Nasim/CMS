@@ -6,6 +6,7 @@ import 'package:cms/screens/subgroup-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../components/navigation.dart';
 import 'add-group.dart';
 import 'dart:math' as math;
@@ -31,6 +32,9 @@ class _GroupsState extends State<Groups> {
 
   @override
   Widget build(BuildContext context) {
+    String email = Provider.of<TaskData>(context, listen: false).userEmail;
+    String code = Provider.of<TaskData>(context, listen: false).courseCode;
+    String batch = Provider.of<TaskData>(context, listen: false).courseBatch;
     return Scaffold(
         key: _globalKey,
         drawer: CustomDrawer(),
@@ -189,6 +193,45 @@ class _GroupsState extends State<Groups> {
                                                 Provider.of<TaskData>(context,listen:false).getGroup(data['groupName'], data['groupBatch']);
                                                 Navigator.pushNamed(context, SubGroups.id);
                                               },
+                                                onLongPress: ()async{
+                                                  Alert(
+                                                    context: context,
+                                                    type: AlertType.warning,
+                                                    title: "Confirm Delete",
+                                                    desc: "Are you sure you wanna delete this Group?",
+                                                    buttons: [
+                                                      DialogButton(
+                                                        child:const Text(
+                                                          "Delete",
+                                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                                        ),
+                                                        onPressed: () async{
+                                                          await FirebaseFirestore.instance.collection('subGroups').where('email', isEqualTo: email).where('groupName', isEqualTo: data['groupName']).where('groupBatch', isEqualTo: data['groupBatch']).get().then((value)async {
+                                                            await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                                              for(i=0;i<value.docs.length;i++){
+                                                                await myTransaction.delete(value.docs[i].reference);
+                                                              }
+                                                            });
+                                                          });
+                                                          await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                                            await myTransaction.delete(snapshot.data!.docs[i].reference);
+                                                          });
+                                                          Navigator.pop(context);
+                                                        },
+                                                        color: Color(0xFFE94560),
+                                                      ),
+                                                      DialogButton(
+                                                        child:const Text(
+                                                          "Cancel",
+                                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                                        ),
+                                                        color: Color(0xFF53BF9D),
+                                                        onPressed: () => Navigator.pop(context),
+                                                      ),
+                                                    ],
+                                                  ).show();
+
+                                                },
                                               child: Container(
                                                 width: MediaQuery.of(context).size.width - 100,
                                                 padding: EdgeInsets.only(bottom: 8.0),
